@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.container {
+  max-width: 900px;
+  padding: 20px;
+}
+::-webkit-scrollbar {
+  display: none;
+}
