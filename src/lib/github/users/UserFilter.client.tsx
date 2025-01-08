@@ -190,7 +190,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
                 <div className="mt-4 text-gray-400">
                   {user.bio && (
                     <>
-                      <p className="text-sm">{user.bio}</p>
+                      <p className="text-sm text-balance">{user.bio}</p>
                       {(user.blog ||
                         user.location ||
                         user.twitter_username ||

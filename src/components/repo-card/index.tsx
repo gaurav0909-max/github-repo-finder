@@ -21,7 +21,7 @@ export default function RepoCard({ repo }: RepoCardProps) {
           >
             {repo.name}
           </h3>
-          <p className="mt-2 text-gray-400 line-clamp-2">
+          <p className="mt-2 text-gray-400 line-clamp-2 text-pretty">
             {repo.description || "No description provided."}
           </p>
         </div>

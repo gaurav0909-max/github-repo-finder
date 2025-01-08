@@ -13,6 +13,16 @@ export type FilterProps = {
     repos: Repo[];
 };
 
+export type SearchType = "users" | "repos";
+
+
+export interface SearchFormProps {
+    username: string;
+    setUsername: (value: string) => void;
+    searchType: SearchType;
+    setSearchType: (value: SearchType) => void;
+}
+
 export type UserData = {
     id: number;
     login: string;

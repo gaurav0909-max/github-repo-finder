@@ -1,18 +1,14 @@
 "use client";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { SearchFormProps } from "@/types/types";
 
 export default function SearchForm({
   username,
   setUsername,
   searchType,
   setSearchType,
-}: {
-  username: string;
-  setUsername: (value: string) => void;
-  searchType: "users" | "repos";
-  setSearchType: (value: "users" | "repos") => void;
-}) {
+}: SearchFormProps) {
   const router = useRouter();
 
   const handleSearch = useCallback(
