@@ -9,6 +9,8 @@ import GithubHeader from "./header/githubHeader";
 import useGitHubData from "@/hooks/useGithubData";
 import { token } from "./../../lib/helper";
 
+export const dynamic = "force-dynamic";
+
 export default function GitHubPage() {
   const searchParams = useSearchParams();
   const searchType = searchParams.get("searchType") || ""; // Get searchType from URL
