@@ -9,21 +9,54 @@ import GithubHeader from "./header/githubHeader";
 import useGitHubData from "@/hooks/useGithubData";
 import { token } from "./../../lib/helper";
 
-export const dynamic = "force-dynamic";
-
-export default function GitHubPage() {
-  return (
-    <Suspense fallback={<LoaderPage />}>
-      <GitHubPageContent />
-    </Suspense>
-  );
+interface GitHubPageProps {
+  searchType: string;
+  usernameFromUrl: string;
 }
 
-function GitHubPageContent() {
-  const searchParams = useSearchParams();
-  const searchType = searchParams.get("searchType") || "";
-  const usernameFromUrl = searchParams.get("username") || "";
+export const dynamic = "force-dynamic";
 
+// Server-side rendering to fetch query params and pass as props
+export async function getServerSideProps(context: {
+  query: { searchType?: string; username?: string };
+}) {
+  const { searchType, username } = context.query;
+
+  // Check for missing query parameters and set defaults if necessary
+  const searchTypeParam = searchType || "";
+  const usernameFromUrl = username || "";
+
+  return {
+    props: {
+      searchType: searchTypeParam,
+      usernameFromUrl: usernameFromUrl,
+    },
+  };
+}
+
+const GitHubPage: React.FC<GitHubPageProps> = ({
+  searchType,
+  usernameFromUrl,
+}) => {
+  return (
+    <Suspense fallback={<LoaderPage />}>
+      <GitHubPageContent
+        searchType={searchType}
+        usernameFromUrl={usernameFromUrl}
+      />
+    </Suspense>
+  );
+};
+
+interface GitHubPageContentProps {
+  searchType: string;
+  usernameFromUrl: string;
+}
+
+const GitHubPageContent: React.FC<GitHubPageContentProps> = ({
+  searchType,
+  usernameFromUrl,
+}) => {
   const { profile, repos, users, totalCount, loading, error } = useGitHubData(
     usernameFromUrl,
     token,
@@ -69,4 +102,6 @@ function GitHubPageContent() {
       </div>
     </Suspense>
   );
-}
+};
+
+export default GitHubPage;
