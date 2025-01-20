@@ -8,10 +8,9 @@ import UsersFilter from "@/lib/github/users/UserFilter.client";
 import GithubHeader from "./header/githubHeader";
 import useGitHubData from "@/hooks/useGithubData";
 import { token } from "./../../lib/helper";
+// export { default } from "./GitHubPageWrapper";
 
-export const dynamic = "force-dynamic";
-
-export default function GitHubPage() {
+export default function GitHubPageClient() {
   const searchParams = useSearchParams();
   const searchType = searchParams.get("searchType") || "";
   const usernameFromUrl = searchParams.get("username") || "";
@@ -31,34 +30,32 @@ export default function GitHubPage() {
   }
 
   return (
-    <Suspense fallback={<LoaderPage />}>
-      <div className="min-h-screen bg-gray-900">
-        <section className="max-w-7xl mx-auto px-4 py-8">
-          <div className="text-left mb-12">
-            <GithubHeader
-              profile={profile}
-              searchType={searchType}
-              username={usernameFromUrl}
-              repos={repos}
-              users={users}
-              total={totalCount}
-            />
-          </div>
+    <div className="min-h-screen bg-gray-900">
+      <section className="max-w-7xl mx-auto px-4 py-8">
+        <div className="text-left mb-12">
+          <GithubHeader
+            profile={profile}
+            searchType={searchType}
+            username={usernameFromUrl}
+            repos={repos}
+            users={users}
+            total={totalCount}
+          />
+        </div>
 
-          <section className="mt-8">
-            {searchType === "repos" && (
-              <Suspense fallback={<LoaderPage />}>
-                <ReposFilter repos={repos} />
-              </Suspense>
-            )}
-            {searchType === "users" && (
-              <Suspense fallback={<LoaderPage />}>
-                <UsersFilter users={users} />
-              </Suspense>
-            )}
-          </section>
+        <section className="mt-8">
+          {searchType === "repos" && (
+            <Suspense fallback={<LoaderPage />}>
+              <ReposFilter repos={repos} />
+            </Suspense>
+          )}
+          {searchType === "users" && (
+            <Suspense fallback={<LoaderPage />}>
+              <UsersFilter users={users} />
+            </Suspense>
+          )}
         </section>
-      </div>
-    </Suspense>
+      </section>
+    </div>
   );
 }
