@@ -20,12 +20,14 @@ function SearchParamsContent() {
         token,
         searchType
     );
+    console.log('usernameFromUrl', usernameFromUrl, searchType)
 
     if (loading) {
         return <LoaderPage />;
     }
 
     if (error) {
+        console.log('error', error)
         return <NotFoundPage />;
     }
 
