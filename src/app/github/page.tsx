@@ -12,6 +12,14 @@ import { token } from "./../../lib/helper";
 export const dynamic = "force-dynamic";
 
 export default function GitHubPage() {
+  return (
+    <Suspense fallback={<LoaderPage />}>
+      <GitHubPageContent />
+    </Suspense>
+  );
+}
+
+function GitHubPageContent() {
   const searchParams = useSearchParams();
   const searchType = searchParams.get("searchType") || "";
   const usernameFromUrl = searchParams.get("username") || "";
