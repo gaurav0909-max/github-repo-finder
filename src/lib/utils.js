@@ -1,6 +1,4 @@
-import { Search, Star } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
-// import { FaGithub, FaSearch } from "react-icons/fa";
 import { MdOutlineTipsAndUpdates, MdSavedSearch } from "react-icons/md";
 
 export const featureItems = [

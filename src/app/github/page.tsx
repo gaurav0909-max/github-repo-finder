@@ -13,10 +13,10 @@ export const dynamic = "force-dynamic";
 
 export default function GitHubPage() {
   const searchParams = useSearchParams();
-  const searchType = searchParams.get("searchType") || ""; // Get searchType from URL
+  const searchType = searchParams.get("searchType") || "";
   const usernameFromUrl = searchParams.get("username") || "";
 
-  const { profile, repos, users, loading, error } = useGitHubData(
+  const { profile, repos, users, totalCount, loading, error } = useGitHubData(
     usernameFromUrl,
     token,
     searchType
@@ -41,6 +41,7 @@ export default function GitHubPage() {
               username={usernameFromUrl}
               repos={repos}
               users={users}
+              total={totalCount}
             />
           </div>
 

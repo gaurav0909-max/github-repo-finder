@@ -7,6 +7,7 @@ const useGitHubData = (username: string, token: string, searchType: string) => {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [totalCount, setTotalCount] = useState(0);
 
   const fetchGitHubData = async (url: string) => {
     const res = await fetch(url, {
@@ -47,7 +48,8 @@ const useGitHubData = (username: string, token: string, searchType: string) => {
     try {
       if (searchType === "users") {
         const userData = await Users({ username });
-        setUsers(userData || []);
+        setTotalCount(userData.total_count);
+        setUsers(userData.items || []);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
@@ -72,7 +74,7 @@ const useGitHubData = (username: string, token: string, searchType: string) => {
     fetchData();
   }, [username, token, searchType]);
 
-  return { profile, repos, users, loading, error };
+  return { profile, repos, users, loading, error, totalCount };
 };
 
 export default useGitHubData;

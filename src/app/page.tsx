@@ -13,20 +13,6 @@ import StatsSection from "@/components/home/stats";
 export default function Home() {
   const [username, setUsername] = useState("");
   const [searchType, setSearchType] = useState<"users" | "repos">("users");
-  const router = useRouter();
-
-  // const handleSearch = useCallback(
-  //   (e: React.FormEvent) => {
-  //     e.preventDefault();
-  //     const trimmedUsername = username.trim();
-  //     if (trimmedUsername) {
-  //       router.push(
-  //         `/github?searchType=${searchType}&username=${trimmedUsername}`
-  //       );
-  //     }
-  //   },
-  //   [username, searchType, router]
-  // );
 
   const handleClick = () => {
     window.open(

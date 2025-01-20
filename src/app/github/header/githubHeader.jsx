@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 
-function GithubHeader({ profile, searchType, repos, users, username }) {
+function GithubHeader({ profile, searchType, repos, users, username, total }) {
     return (
         <div className="flex items-center justify-center space-x-12">
             {profile && (
@@ -25,7 +25,7 @@ function GithubHeader({ profile, searchType, repos, users, username }) {
                 <p className="mt-4 text-gray-400 text-lg">
                     {searchType === "repos"
                         ? `Exploring ${repos.length} repositories`
-                        : `Found ${users.length} users`}
+                        : `Found ${total} users`}
                 </p>
             </div>
         </div>

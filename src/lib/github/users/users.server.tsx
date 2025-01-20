@@ -25,13 +25,9 @@ export default async function Users({ username }: { username: string }) {
 
   const users = await response.json();
 
-  console.log("users", users);
-
   if (!users.items || users.items.length === 0) {
     return { message: `No users found for "${username}"` };
   }
 
-  console.log(users.total_count);
-
-  return users.items;
+  return users;
 }
