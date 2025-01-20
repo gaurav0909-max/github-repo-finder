@@ -8,6 +8,7 @@ import useGitHubData from "@/hooks/useGithubData";
 import LoaderPage from "@/components/Loader";
 import { token } from "@/lib/helper";
 import GithubHeader from './../header/githubHeader';
+import NotFoundPage from './../../../components/not-found/index';
 
 function SearchParamsContent() {
     const searchParams = useSearchParams();
