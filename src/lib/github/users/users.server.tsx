@@ -7,7 +7,7 @@ export default async function Users({ username }: { username: string }) {
       "GitHub token is missing. Please add it to your environment variables."
     );
   }
-  const perPage = 100;
+  const perPage = 90;
   const page = 1;
 
   const response = await fetch(

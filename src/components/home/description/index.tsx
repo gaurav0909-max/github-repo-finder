@@ -7,9 +7,10 @@ function Description() {
         RepoVision
       </h1>
       <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto text-balance">
-        Explore GitHub repositories by username and discover top projects,
-        contributions, and innovations in seconds. Your gateway to open-source
-        greatness!
+        Explore GitHub repositories effortlessly by username, location, or
+        organization. Discover top projects, contributions, and professional
+        achievements in seconds—your gateway to meaningful connections and
+        global expertise!
       </p>
     </div>
   );
