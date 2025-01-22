@@ -20,7 +20,6 @@ function SearchParamsContent() {
         token,
         searchType
     );
-    console.log('usernameFromUrl', usernameFromUrl, searchType)
 
     if (loading) {
         return <LoaderPage />;

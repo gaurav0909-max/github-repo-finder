@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
-import { ExternalLink } from "lucide-react";
+import { Building2, ExternalLink, MapPin, X } from "lucide-react";
 import Image from "next/image";
 import Pagination from "@/components/pagination";
 import DynamicData from "@/components/ui/dynamic-data/index";
@@ -15,12 +15,16 @@ export default function UsersFilter({ users }: UserFilterProps) {
     detailedUsers: UserData[];
     isLoading: boolean;
     searchTerm: string;
+    locationFilter: string;
+    organizationFilter: string;
     currentPage: number;
     expandedUsers: Record<string, boolean>;
   }>({
     detailedUsers: [],
     isLoading: true,
     searchTerm: "",
+    locationFilter: "",
+    organizationFilter: "",
     currentPage: 1,
     expandedUsers: {},
   });
@@ -81,14 +85,32 @@ export default function UsersFilter({ users }: UserFilterProps) {
   const filteredUsers = useMemo(() => {
     return componentData.detailedUsers.filter((user) => {
       const searchLower = componentData.searchTerm.toLowerCase();
-      return (
+      const locationLower = componentData.locationFilter.toLowerCase();
+      const organizationLower = componentData.organizationFilter.toLowerCase();
+
+      const matchesSearch =
         !componentData.searchTerm ||
         user.login.toLowerCase().includes(searchLower) ||
         user.type.toLowerCase().includes(searchLower) ||
-        (user.bio && user.bio.toLowerCase().includes(searchLower))
-      );
+        (user.bio && user.bio.toLowerCase().includes(searchLower));
+
+      const matchesLocation =
+        !componentData.locationFilter ||
+        (user.location && user.location.toLowerCase().includes(locationLower));
+
+      const matchesOrganization =
+        !componentData.organizationFilter ||
+        (user?.company &&
+          user?.company.toLowerCase().includes(organizationLower));
+
+      return matchesSearch && matchesLocation && matchesOrganization;
     });
-  }, [componentData.detailedUsers, componentData.searchTerm]);
+  }, [
+    componentData.detailedUsers,
+    componentData.searchTerm,
+    componentData.locationFilter,
+    componentData.organizationFilter,
+  ]);
 
   const { currentUsers, totalPages } = useMemo(() => {
     const total = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
@@ -120,10 +142,26 @@ export default function UsersFilter({ users }: UserFilterProps) {
     }));
   };
 
+  const handleLocationFilter = (value: string) => {
+    setComponentData((prev) => ({
+      ...prev,
+      locationFilter: value,
+      currentPage: 1,
+    }));
+  };
+
+  const handleOrganizationFilter = (value: string) => {
+    setComponentData((prev) => ({
+      ...prev,
+      organizationFilter: value,
+      currentPage: 1,
+    }));
+  };
+
   const toggleExpanded = (userId: string) => {
     setComponentData((prev) => {
       const newExpandedUsers = { ...prev.expandedUsers };
-      newExpandedUsers[userId] = !newExpandedUsers[userId]; // Toggle expanded state for the user
+      newExpandedUsers[userId] = !newExpandedUsers[userId];
       return { ...prev, expandedUsers: newExpandedUsers };
     });
   };
@@ -134,7 +172,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="mb-8 space-y-6">
+      <div className="mb-8 space-y-4">
         <div className="relative">
           <input
             type="text"
@@ -146,6 +184,87 @@ export default function UsersFilter({ users }: UserFilterProps) {
                 focus:ring-2 focus:ring-teal-500/50 focus:border-transparent
                 outline-none transition-all duration-300"
           />
+        </div>
+
+        <div className="relative w-full">
+          <div className="flex flex-row items-center gap-4 w-full">
+            {/* Location Filter */}
+            <div className="relative group">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-teal-500">
+                <MapPin size={18} />
+              </div>
+              <input
+                type="text"
+                placeholder="Filter by location"
+                value={componentData.locationFilter}
+                onChange={(e) => handleLocationFilter(e.target.value)}
+                className="pl-11 pr-4 py-2.5 bg-gray-800/30 border border-gray-700/50 
+                  rounded-xl text-gray-200 placeholder-gray-400 w-60
+                  focus:ring-2 focus:ring-teal-500/30 focus:border-transparent
+                  outline-none transition-all duration-300"
+              />
+              {componentData.locationFilter && (
+                <button
+                  onClick={() => handleLocationFilter("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 
+                    hover:text-gray-200 transition-colors duration-200"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+
+            {/* Organization Filter */}
+            <div className="relative group">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-teal-500">
+                <Building2 size={18} />
+              </div>
+              <input
+                type="text"
+                placeholder="Filter by organization"
+                value={componentData.organizationFilter}
+                onChange={(e) => handleOrganizationFilter(e.target.value)}
+                className="pl-11 pr-4 py-2.5 bg-gray-800/30 border border-gray-700/50 
+                  rounded-xl text-gray-200 placeholder-gray-400 w-72
+                  focus:ring-2 focus:ring-teal-500/30 focus:border-transparent
+                  outline-none transition-all duration-300"
+              />
+              {componentData.organizationFilter && (
+                <button
+                  onClick={() => handleOrganizationFilter("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 
+                    hover:text-gray-200 transition-colors duration-200"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+
+            {/* Active Filters */}
+            {(componentData.locationFilter ||
+              componentData.organizationFilter) && (
+              <div className="flex flex-wrap gap-2 ml-2">
+                {componentData.locationFilter && (
+                  <span
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-teal-500/10 
+                    text-teal-400 rounded-lg text-sm border border-teal-500/20"
+                  >
+                    <MapPin size={14} />
+                    {componentData.locationFilter}
+                  </span>
+                )}
+                {componentData.organizationFilter && (
+                  <span
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-teal-500/10 
+                    text-teal-400 rounded-lg text-sm border border-teal-500/20"
+                  >
+                    <Building2 size={14} />
+                    {componentData.organizationFilter}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
