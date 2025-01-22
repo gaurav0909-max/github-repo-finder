@@ -34,6 +34,7 @@ export type UserData = {
     location?: string;
     twitter_username?: string;
     email?: string;
+    company?: string;
 };
 
 
