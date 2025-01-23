@@ -17,7 +17,6 @@ export default function FeatureCard() {
                             }}
                         >
                             <div className="relative z-10">
-                                {/* Icon */}
                                 <div
                                     className="w-16 h-16 rounded-xl bg-white/10 backdrop-blur-md 
                                     flex items-center justify-center mb-6 group-hover:scale-110 
@@ -25,21 +24,17 @@ export default function FeatureCard() {
                                 >
                                     {feature.icon}
                                 </div>
-                                {/* Title */}
                                 <h3 className="text-2xl font-semibold text-black/80 mb-4 group-hover:text-black">
                                     {feature.title}
                                 </h3>
-                                {/* Description */}
                                 <p className="text-gray-700">
                                     {feature.description}
                                 </p>
                             </div>
-                            {/* Hover Glow Effect */}
                             <div
                                 className="absolute inset-0 bg-gradient-to-br from-[#ffffff]/10 to-[#000000]/10 opacity-0 
                                     group-hover:opacity-20 transition-opacity duration-300"
                             />
-                            {/* Ripple Animation on Hover */}
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <span
                                     className="absolute w-0 h-0 rounded-full bg-[#ffffff]/10 

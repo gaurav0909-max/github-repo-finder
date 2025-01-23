@@ -2,6 +2,7 @@
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { SearchFormProps } from "@/types/types";
+import { usernameWithoutSpaces } from "@/lib/helper";
 
 export default function SearchForm({
   username,
@@ -14,10 +15,10 @@ export default function SearchForm({
   const handleSearch = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      const trimmedUsername = username.trim();
-      if (trimmedUsername) {
+      const TrimmedUsername = usernameWithoutSpaces(username);
+      if (TrimmedUsername) {
         router.push(
-          `/github?searchType=${searchType}&username=${trimmedUsername}`
+          `/github?searchType=${searchType}&username=${TrimmedUsername}`
         );
       }
     },

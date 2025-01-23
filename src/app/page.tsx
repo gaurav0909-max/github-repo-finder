@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaGithub } from "react-icons/fa";
 import FeatureCard from "./../components/feature-card/index";

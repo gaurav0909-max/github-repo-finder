@@ -15,8 +15,13 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
+  productionBrowserSourceMaps: true,
   // You can add more configuration options here if needed
 };
 
