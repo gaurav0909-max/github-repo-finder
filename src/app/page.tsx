@@ -10,6 +10,8 @@ import { stats } from "@/lib/utils";
 import "../app/globals.css";
 import StatsSection from "@/components/home/stats";
 import { useMediaQuery } from "react-responsive";
+import Link from "next/link";
+import Explore from "./../components/home/explore/index";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -59,7 +61,7 @@ export default function Home() {
           <FaGithub />
         </button>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-4 sm:py-8 ">
           <Description />
           <SearchForm
             username={username}
@@ -68,6 +70,17 @@ export default function Home() {
             setSearchType={setSearchType}
           />
           <StatsSection stats={stats} />
+          {/* <div className="flex justify-center items-center ">
+            <div className="my-4 py-3  bg-[#FDF1DA] rounded-xl max-w-[350px]">
+              <Link
+                href="/organizations"
+                className="font-bold text-xl text-slate-700 hover:text-slate-500 transition-all duration-300 px-2 py-6"
+              >
+                You can check all the organizations too!
+              </Link>
+            </div>
+          </div> */}
+          <Explore />
         </div>
 
         <button className="fixed top-6 right-8 bg-gray-800 font-semibold text-teal-500  leading-7 py-2 px-4 border-2 border-gray-800  rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">

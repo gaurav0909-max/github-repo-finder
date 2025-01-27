@@ -11,7 +11,7 @@ export default function FeatureCard() {
                             key={index}
                             className="relative group rounded-2xl overflow-hidden p-8 
                                 shadow-lg transition-transform duration-300 hover:scale-[1.05] 
-                                bg-[#aed8ff] border border-gray-700/50"
+                                bg-[#fff3db] border border-gray-700/50"
                             style={{
                                 background: `linear-gradient(to bottom right, ${feature.gradient})`,
                             }}

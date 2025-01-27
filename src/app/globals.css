@@ -13,3 +13,10 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+@layer base {
+  ::selection {
+    background-color: #c7b795; /* Tailwind's blue-500 */
+    color: white;
+  }
+}

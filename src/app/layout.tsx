@@ -1,16 +1,8 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-  Kdam_Thmor_Pro,
-  Kodchasan,
-  Playfair,
-  Slabo_13px,
-  Space_Mono,
-} from "next/font/google";
+import { Space_Mono } from "next/font/google";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 
-// const slabo = Slabo_13px({ subsets: ["latin"], weight: ["400"] });
 const spaceMono = Space_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -29,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceMono.className} antialiased`}>{children}</body>
+      <body className={`${spaceMono.className} antialiased`}>
+        <NextTopLoader color="#FDF1DA" height={2} />
+        {children}
+      </body>
     </html>
   );
 }
