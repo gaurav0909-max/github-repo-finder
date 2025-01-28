@@ -25,6 +25,10 @@ export default function SearchForm({
     [username, searchType, router]
   );
 
+  const changeSearchType = () => {
+    setSearchType(searchType === "users" ? "repos" : "users");
+  };
+
   return (
     <form
       onSubmit={handleSearch}
@@ -45,9 +49,7 @@ export default function SearchForm({
 
           <button
             type="button"
-            onClick={() =>
-              setSearchType(searchType === "users" ? "repos" : "users")
-            }
+            onClick={changeSearchType}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-4 text-sm text-gray-400 
            rounded-xl border-2 border-gray-400/20 bg-white/10 backdrop-blur-md 
            hover:bg-white/20 transition-all duration-300 focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-2"

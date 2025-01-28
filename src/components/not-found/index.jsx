@@ -3,6 +3,10 @@ import { ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const NotFoundPage = () => {
+
+    const handleBack = () => {
+        window.history.back()
+    }
     return (
         <div className="min-h-screen bg-[#111827] flex items-center justify-center p-4">
             <div className="w-full max-w-2xl text-center space-y-8 border-2 border-gray-800 rounded-lg p-8">
@@ -70,7 +74,7 @@ const NotFoundPage = () => {
                         initial={{ x: -100 }}
                         animate={{ x: 0 }}
                         transition={{ delay: 1.7, type: 'spring', stiffness: 100 }}
-                        onClick={() => window.history.back()}
+                        onClick={handleBack}
                         className="flex items-center px-6 py-3 bg-teal-600 hover:bg-teal-500 rounded-lg text-white text-lg font-medium transition-colors duration-200"
                     >
                         <ArrowLeft size={18} className="mr-2" />
