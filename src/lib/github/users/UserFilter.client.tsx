@@ -7,6 +7,7 @@ import DynamicData from "@/components/ui/dynamic-data/index";
 import LoaderPage from "./../../../components/Loader/index";
 import { token } from "@/lib/helper";
 import { UserData, UserFilterProps } from "@/types/types";
+import Link from "next/link";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -289,7 +290,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
                     <h3 className="text-2xl font-bold text-gray-100 group-hover:text-teal-400 transition-colors duration-300">
                       {user.login}
                     </h3>
-                    <a
+                    <Link
                       href={user.html_url}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -300,7 +301,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
                         size={20}
                         className="text-gray-400 hover:text-white"
                       />
-                    </a>
+                    </Link>
                   </div>
                 </div>
 

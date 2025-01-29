@@ -7,6 +7,7 @@ export type Repo = {
     language: string;
     html_url: string;
     updated_at?: string;
+    homepage?: string;
 };
 
 export type FilterProps = {

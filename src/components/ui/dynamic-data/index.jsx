@@ -9,7 +9,7 @@ function DynamicData({ user }) {
       {/* {user.bio && <p className="text-gray-400 text-sm">{user.bio}</p>} */}
       {user.location && (
         <p className="flex items-center text-gray-400 text-sm gap-2">
-          <a
+          <Link
             href={`https://www.google.com/maps/search/?q=${encodeURIComponent(
               user.location
             )}`}
@@ -19,7 +19,7 @@ function DynamicData({ user }) {
           >
             <MapPin size={16} className="text-gray-400" />
             <span>{user.location}</span>
-          </a>
+          </Link>
         </p>
       )}
       {user.blog && (

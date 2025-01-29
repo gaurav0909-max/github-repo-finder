@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Users, Link2, MapPin, Calendar, GitFork, Building2 } from 'lucide-react';
 import Organizations from '@/lib/github/organizations/organizations.server';
 import Pagination from '../pagination';
+import Link from 'next/link';
 
 const Organization = ({ data }) => {
     console.log("data", data)
@@ -57,14 +58,14 @@ const Organization = ({ data }) => {
                             {org.blog && (
                                 <div className="flex items-center space-x-2 text-gray-400">
                                     <Link2 className="w-4 h-4" />
-                                    <a
+                                    <Link
                                         href={org.blog}
                                         className="text-blue-600 hover:underline"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
                                         Website
-                                    </a>
+                                    </Link>
                                 </div>
                             )}
 
