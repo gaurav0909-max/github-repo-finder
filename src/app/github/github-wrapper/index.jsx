@@ -45,14 +45,10 @@ function SearchParamsContent() {
 
             <section className="mt-8">
                 {searchType === "repos" && (
-                    <Suspense fallback={<LoaderPage />}>
-                        <ReposFilter repos={repos} />
-                    </Suspense>
+                    <ReposFilter repos={repos} />
                 )}
                 {searchType === "users" && (
-                    <Suspense fallback={<LoaderPage />}>
-                        <UsersFilter users={users} />
-                    </Suspense>
+                    <UsersFilter users={users} />
                 )}
             </section>
         </section>
