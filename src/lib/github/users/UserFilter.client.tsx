@@ -127,6 +127,8 @@ export default function UsersFilter({ users }: UserFilterProps) {
     };
   }, [filteredUsers, componentData.currentPage]);
 
+  console.log("currentUsers", currentUsers);
+
   const handlePageChange = (page: number) => {
     setComponentData((prev) => ({
       ...prev,
