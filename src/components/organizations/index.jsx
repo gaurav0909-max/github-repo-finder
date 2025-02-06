@@ -8,7 +8,7 @@ import Link from 'next/link';
 const Organization = ({ data }) => {
     console.log("data", data)
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 9; // Number of organizations per page
+    const itemsPerPage = 9;
     const totalPages = Math.ceil(data.length / itemsPerPage);
 
     // Paginated Data

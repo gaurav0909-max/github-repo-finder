@@ -1,46 +1,41 @@
 import React from "react";
-import { featureItems } from "./../../lib/utils";
+import { featureItems } from "@/lib/utils";
 
 export default function FeatureCard() {
     return (
-        <div className="py-24 bg-gradient-to-b from-slate-900 to-slate-800">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="bg-slate-900 py-16">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {featureItems.map((feature, index) => (
                         <div
                             key={index}
-                            className="relative group rounded-2xl overflow-hidden p-8 
-                                shadow-lg transition-transform duration-300 hover:scale-[1.05] 
-                                bg-[#fff3db] border border-gray-700/50"
-                            style={{
-                                background: `linear-gradient(to bottom right, ${feature.gradient})`,
-                            }}
+                            className="group relative overflow-hidden rounded-xl bg-white/5 p-6 ring-1 ring-white/10 
+                          backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:ring-white/20"
                         >
-                            <div className="relative z-10">
-                                <div
-                                    className="w-16 h-16 rounded-xl bg-white/10 backdrop-blur-md 
-                                    flex items-center justify-center mb-6 group-hover:scale-110 
-                                    transition-transform duration-300 border-2 border-[#3e3d36]"
-                                >
-                                    {feature.icon}
+                            {/* Glass effect background */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-white/5" />
+
+                            {/* Content */}
+                            <div className="relative">
+                                {/* Icon container */}
+                                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-lg 
+                                bg-gradient-to-br from-teal-300 via-slate-400 to-yellow-500 text-white shadow-lg">
+                                    <span className="text-xl">{feature.icon}</span>
                                 </div>
-                                <h3 className="text-2xl font-semibold text-black/80 mb-4 group-hover:text-black">
+
+                                {/* Title */}
+                                <h3 className="mb-3 text-xl font-medium text-white">
                                     {feature.title}
                                 </h3>
-                                <p className="text-gray-700">
+
+                                {/* Description */}
+                                <p className="text-sm leading-relaxed text-gray-400">
                                     {feature.description}
                                 </p>
-                            </div>
-                            <div
-                                className="absolute inset-0 bg-gradient-to-br from-[#ffffff]/10 to-[#000000]/10 opacity-0 
-                                    group-hover:opacity-20 transition-opacity duration-300"
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span
-                                    className="absolute w-0 h-0 rounded-full bg-[#ffffff]/10 
-                                    group-hover:w-40 group-hover:h-40 opacity-0 group-hover:opacity-10 
-                                    transition-all duration-500 ease-in-out"
-                                />
+
+                                {/* Subtle highlight effect */}
+                                <div className="absolute right-0 top-0 h-px w-full 
+                                bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                             </div>
                         </div>
                     ))}

@@ -12,6 +12,7 @@ import StatsSection from "@/components/home/stats";
 import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
 import Explore from "./../components/home/explore/index";
+import MobileUI from "./../components/mobile-ui/index";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -27,19 +28,7 @@ export default function Home() {
   const isMobile = useMediaQuery({ query: "(max-width: 720px)" });
 
   if (isMobile) {
-    return (
-      <main className="flex items-center justify-center min-h-screen bg-slate-900 text-white text-center">
-        <div className="p-6">
-          <h1 className="text-3xl font-bold mb-4">
-            🌟 Website Not Supported on Mobile Devices 🌟
-          </h1>
-          <p className="text-lg">
-            This website is best viewed on larger screens. Please revisit using
-            a tablet or desktop for the best experience. Thank you!
-          </p>
-        </div>
-      </main>
-    );
+    return <MobileUI />;
   }
 
   return (
