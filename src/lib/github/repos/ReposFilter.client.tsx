@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { BookOpen, Code2 } from "lucide-react";
 import { useFilteredRepos } from "../../../hooks/useFilteredRepos";
 import RepoCard from "@/components/repo-card";
@@ -11,8 +11,9 @@ export default function ReposFilter({ repos }: FilterProps) {
 
   const filteredRepos = useFilteredRepos(repos, filter, searchTerm);
 
-  const languages = Array.from(
-    new Set(repos.map((repo) => repo.language).filter(Boolean))
+  const languages = useMemo(
+    () => Array.from(new Set(repos.map((repo) => repo.language).filter(Boolean))),
+    [repos]
   );
 
   return (
