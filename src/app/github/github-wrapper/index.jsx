@@ -26,7 +26,6 @@ function SearchParamsContent() {
     }
 
     if (error) {
-        console.log('error', error)
         return <NotFoundPage />;
     }
 

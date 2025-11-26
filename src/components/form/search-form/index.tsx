@@ -25,9 +25,9 @@ export default function SearchForm({
     [username, searchType, router]
   );
 
-  const changeSearchType = () => {
+  const changeSearchType = useCallback(() => {
     setSearchType(searchType === "users" ? "repos" : "users");
-  };
+  }, [searchType, setSearchType]);
 
   return (
     <form

@@ -1,12 +1,10 @@
 "use client"
 import React, { useState } from 'react';
 import { Users, Link2, MapPin, Calendar, GitFork, Building2 } from 'lucide-react';
-import Organizations from '@/lib/github/organizations/organizations.server';
 import Pagination from '../pagination';
 import Link from 'next/link';
 
 const Organization = ({ data }) => {
-    console.log("data", data)
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;
     const totalPages = Math.ceil(data.length / itemsPerPage);
