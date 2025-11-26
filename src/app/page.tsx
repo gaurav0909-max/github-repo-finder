@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { FaGithub } from "react-icons/fa";
 import FeatureCard from "./../components/feature-card/index";
@@ -18,14 +18,14 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [searchType, setSearchType] = useState<"users" | "repos">("users");
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     window.open(
       "https://github.com/gaurav0909-max/github-repo-finder",
       "_blank"
     );
-  };
+  }, []);
 
-  const isMobile = useMediaQuery({ query: "(max-width: 720px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   if (isMobile) {
     return <MobileUI />;
