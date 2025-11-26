@@ -22,7 +22,6 @@ export default async function getRateLimit() {
     }
 
     const data = await response.json();
-    console.log("Rate Limit Info:", data);
 
     return data;
   } catch (error: any) {

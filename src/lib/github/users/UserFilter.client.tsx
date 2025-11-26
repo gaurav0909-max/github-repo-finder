@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Building2, ExternalLink, MapPin, X } from "lucide-react";
 import Image from "next/image";
 import Pagination from "@/components/pagination";
@@ -30,10 +30,23 @@ export default function UsersFilter({ users }: UserFilterProps) {
     expandedUsers: {},
   });
 
+  // Memoize users to prevent unnecessary re-fetches
+  const userLogins = useMemo(() => users.map(u => u.login).join(','), [users]);
+
   useEffect(() => {
     let isMounted = true;
 
     const fetchUserDetails = async () => {
+      // Check if we already have this data cached
+      if (componentData.detailedUsers.length === users.length) {
+        const allUsersMatch = users.every((user, index) =>
+          componentData.detailedUsers[index]?.login === user.login
+        );
+        if (allUsersMatch) {
+          return; // Skip fetch if data hasn't changed
+        }
+      }
+
       try {
         const updatedUsers = await Promise.all(
           users.map(async (user) => {
@@ -42,7 +55,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
                 `https://api.github.com/users/${user.login}`,
                 {
                   headers: {
-                    Authorization: `token ${token}`,
+                    Authorization: `Bearer ${token}`,
                   },
                 }
               );
@@ -81,7 +94,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
     return () => {
       isMounted = false;
     };
-  }, [users]);
+  }, [userLogins]);
 
   const filteredUsers = useMemo(() => {
     return componentData.detailedUsers.filter((user) => {
@@ -127,47 +140,45 @@ export default function UsersFilter({ users }: UserFilterProps) {
     };
   }, [filteredUsers, componentData.currentPage]);
 
-  console.log("currentUsers", currentUsers);
-
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     setComponentData((prev) => ({
       ...prev,
       currentPage: page,
     }));
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, []);
 
-  const handleSearch = (value: string) => {
+  const handleSearch = useCallback((value: string) => {
     setComponentData((prev) => ({
       ...prev,
       searchTerm: value,
       currentPage: 1,
     }));
-  };
+  }, []);
 
-  const handleLocationFilter = (value: string) => {
+  const handleLocationFilter = useCallback((value: string) => {
     setComponentData((prev) => ({
       ...prev,
       locationFilter: value,
       currentPage: 1,
     }));
-  };
+  }, []);
 
-  const handleOrganizationFilter = (value: string) => {
+  const handleOrganizationFilter = useCallback((value: string) => {
     setComponentData((prev) => ({
       ...prev,
       organizationFilter: value,
       currentPage: 1,
     }));
-  };
+  }, []);
 
-  const toggleExpanded = (userId: string) => {
+  const toggleExpanded = useCallback((userId: string) => {
     setComponentData((prev) => {
       const newExpandedUsers = { ...prev.expandedUsers };
       newExpandedUsers[userId] = !newExpandedUsers[userId];
       return { ...prev, expandedUsers: newExpandedUsers };
     });
-  };
+  }, []);
 
   if (componentData.isLoading) {
     return <LoaderPage />;
