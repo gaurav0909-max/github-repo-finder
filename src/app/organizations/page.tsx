@@ -1,5 +1,10 @@
 import Organizations from "@/lib/github/organizations/organizations.server";
 import Organization from "../../components/organizations/index";
+import Header from "@/components/layout/header";
+import Footer from "@/components/Footer";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -7,25 +12,33 @@ export default async function OrganizationsPage() {
   try {
     const data = await Organizations();
     return (
-      <div className="min-h-screen bg-gray-800">
-        <Organization data={data} />
-      </div>
+      <main className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto">
+          <Organization data={data} />
+        </div>
+        <Footer />
+      </main>
     );
   } catch (error) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-8 max-w-md text-center">
-          <h2 className="text-2xl font-bold text-red-400 mb-4">
-            Failed to Load Organizations
-          </h2>
-          <p className="text-slate-300 mb-4">
-            {error instanceof Error ? error.message : "An unexpected error occurred"}
-          </p>
-          <a href="/" className="text-teal-400 hover:text-teal-300 underline">
-            Return to Home
-          </a>
+      <main className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto flex min-h-[70vh] items-center justify-center p-4">
+          <Card className="p-8 max-w-md text-center">
+            <h2 className="text-2xl font-bold text-destructive mb-4">
+              Failed to Load Organizations
+            </h2>
+            <p className="text-muted-foreground mb-6">
+              {error instanceof Error ? error.message : "An unexpected error occurred"}
+            </p>
+            <Link href="/">
+              <Button variant="default">Return to Home</Button>
+            </Link>
+          </Card>
         </div>
-      </div>
+        <Footer />
+      </main>
     );
   }
 }
