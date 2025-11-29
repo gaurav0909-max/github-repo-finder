@@ -1,13 +1,17 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import { BookOpen, Code2 } from "lucide-react";
 import { useFilteredRepos } from "../../../hooks/useFilteredRepos";
 import RepoCard from "@/components/repo-card";
 import { FilterProps } from "@/types/types";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export default function ReposFilter({ repos }: FilterProps) {
   const [filter, setFilter] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const topRef = useRef<HTMLDivElement>(null);
 
   const filteredRepos = useFilteredRepos(repos, filter, searchTerm);
 
@@ -17,56 +21,45 @@ export default function ReposFilter({ repos }: FilterProps) {
   );
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div ref={topRef} className="max-w-6xl mx-auto px-4 py-8">
       {/* Search and Filter Controls */}
       <div className="mb-8 space-y-6">
         <div className="relative">
-          <input
+          <Input
             type="text"
             placeholder="Search repositories..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-3 pl-12 bg-white/5 backdrop-blur-sm border 
-                     border-gray-700 rounded-xl text-gray-200 placeholder-gray-400 
-                     focus:ring-2 focus:ring-teal-500/50 focus:border-transparent
-                     outline-none transition-all duration-300"
+            className="pl-12"
           />
           <BookOpen
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground"
             size={20}
           />
         </div>
 
-        <div className="flex flex-wrap gap-3">
-          <button
+        <div className="flex flex-wrap gap-2">
+          <Button
             onClick={() => setFilter("")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
-                     ${
-                       !filter
-                         ? "bg-teal-500 text-white"
-                         : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                     }`}
+            variant={!filter ? "default" : "outline"}
+            size="sm"
           >
             All Languages
-          </button>
+          </Button>
           {languages.map((lang) => (
-            <button
+            <Button
               key={lang}
               onClick={() => setFilter(lang)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
-                       ${
-                         filter === lang
-                           ? "bg-teal-500 text-white"
-                           : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                       }`}
+              variant={filter === lang ? "default" : "outline"}
+              size="sm"
             >
               {lang}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 min-h-[500px]">
         {filteredRepos.map((repo: any) => (
           <RepoCard key={repo.id} repo={repo} />
         ))}
@@ -74,11 +67,11 @@ export default function ReposFilter({ repos }: FilterProps) {
 
       {filteredRepos.length === 0 && (
         <div className="text-center py-12">
-          <Code2 className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-4 text-lg font-medium text-gray-300">
+          <Code2 className="mx-auto h-12 w-12 text-muted-foreground" />
+          <h3 className="mt-4 text-lg font-medium text-foreground">
             No repositories found
           </h3>
-          <p className="mt-2 text-gray-400">
+          <p className="mt-2 text-muted-foreground">
             Try adjusting your search or filter criteria
           </p>
         </div>

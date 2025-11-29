@@ -41,18 +41,18 @@ export default function SearchForm({
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder={`Enter GitHub ${searchType}`}
-            className="w-full px-4 py-4 pr-20 rounded-xl text-lg bg-white/10 backdrop-blur-md 
-           text-white placeholder-gray-400 border border-gray-400/20
-           shadow-lg focus:ring-2 focus:ring-teal-500/50 focus:border-transparent
+            className="w-full px-4 py-4 pr-20 rounded-xl text-lg bg-foreground/10 backdrop-blur-md
+           text-foreground placeholder:text-muted-foreground border border-border/20
+           shadow-lg focus:ring-2 focus:ring-ring focus:border-transparent
            outline-none transition-all duration-300"
           />
 
           <button
             type="button"
             onClick={changeSearchType}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-4 text-sm text-gray-400 
-           rounded-xl border-2 border-gray-400/20 bg-white/10 backdrop-blur-md 
-           hover:bg-white/20 transition-all duration-300 focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-2"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-4 text-sm text-muted-foreground
+           rounded-xl border-2 border-border/20 bg-foreground/10 backdrop-blur-md
+           hover:bg-foreground/20 transition-all duration-300 focus:ring-2 focus:ring-ring focus:ring-offset-2"
           >
             {searchType === "users" ? "Users" : "Repositories"}
           </button>
@@ -62,15 +62,15 @@ export default function SearchForm({
       <button
         type="submit"
         disabled={!username.trim()}
-        className={`w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-teal-500 to-cyan-500 
+        className={`w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-accent to-accent
         text-white rounded-xl font-medium text-lg shadow-lg
-        transition-all duration-300 focus:ring-2 
-        focus:ring-teal-500/50 focus:ring-offset-2 
-        focus:ring-offset-transparent 
+        transition-all duration-300 focus:ring-2
+        focus:ring-ring focus:ring-offset-2
+        focus:ring-offset-transparent
         ${
           !username.trim()
             ? "cursor-not-allowed opacity-50"
-            : "hover:shadow-teal-500/25 hover:from-teal-400 hover:to-cyan-400"
+            : "hover:shadow-accent/25 hover:from-accent hover:to-primary"
         }`}
       >
         Search

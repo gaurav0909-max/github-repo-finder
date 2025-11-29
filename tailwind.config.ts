@@ -70,6 +70,19 @@ export default {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
+        },
+        disabled: {
+          DEFAULT: "hsl(var(--disabled))",
+          foreground: "hsl(var(--disabled-foreground))",
+        },
+        ghost: {
+          DEFAULT: "hsl(var(--ghost))",
+          foreground: "hsl(var(--ghost-foreground))",
+        },
+        skeleton: "hsl(var(--skeleton))",
       },
       borderRadius: {
         lg: "var(--radius)",

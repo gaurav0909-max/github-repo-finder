@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Users, Link2, MapPin, Calendar, GitFork, Building2 } from "lucide-react";
 import Pagination from "../pagination";
 import Link from "next/link";
@@ -30,6 +30,7 @@ export default function Organization({ data }: OrganizationProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
   const totalPages = Math.ceil(data.length / itemsPerPage);
+  const topRef = useRef<HTMLDivElement>(null);
 
   // Paginated Data
   const currentData = data.slice(
@@ -41,11 +42,18 @@ export default function Organization({ data }: OrganizationProps) {
     setCurrentPage(page);
   };
 
+  // Scroll to top when page changes
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [currentPage]);
+
   return (
-    <div className="px-4 py-2">
+    <div ref={topRef} className="px-4 py-8">
       <h1 className="mb-8 text-3xl font-bold text-foreground">Organizations</h1>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 min-h-[600px]">
         {currentData.map((org) => (
           <Card key={org.id} className="p-6 transition-shadow hover:shadow-lg">
             <div className="mb-4 flex items-center space-x-4">
