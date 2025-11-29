@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Building2, ExternalLink, MapPin, X } from "lucide-react";
 import Image from "next/image";
 import Pagination from "@/components/pagination";
@@ -8,10 +8,35 @@ import LoaderPage from "./../../../components/Loader/index";
 import { token } from "@/lib/helper";
 import { UserData, UserFilterProps } from "@/types/types";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+// Custom debounce hook
+function useDebouncedValue<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 
 const ITEMS_PER_PAGE = 6;
 
 export default function UsersFilter({ users }: UserFilterProps) {
+  // Local state for filter inputs (for debouncing)
+  const [localLocationFilter, setLocalLocationFilter] = useState("");
+  const [localOrganizationFilter, setLocalOrganizationFilter] = useState("");
+
+  // Debounced values (300ms delay)
+  const debouncedLocationFilter = useDebouncedValue(localLocationFilter, 300);
+  const debouncedOrganizationFilter = useDebouncedValue(localOrganizationFilter, 300);
+
   const [componentData, setComponentData] = useState<{
     detailedUsers: UserData[];
     isLoading: boolean;
@@ -140,13 +165,38 @@ export default function UsersFilter({ users }: UserFilterProps) {
     };
   }, [filteredUsers, componentData.currentPage]);
 
-  const handlePageChange = useCallback((page: number) => {
+  const topRef = useRef<HTMLDivElement>(null);
+
+  const handlePageChange = useCallback((page: number, shouldScroll = true) => {
     setComponentData((prev) => ({
       ...prev,
       currentPage: page,
     }));
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (shouldScroll && topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }, []);
+
+  // Sync debounced filter values to actual state (without triggering scroll)
+  useEffect(() => {
+    if (debouncedLocationFilter !== componentData.locationFilter) {
+      setComponentData((prev) => ({
+        ...prev,
+        locationFilter: debouncedLocationFilter,
+        currentPage: 1,
+      }));
+    }
+  }, [debouncedLocationFilter, componentData.locationFilter]);
+
+  useEffect(() => {
+    if (debouncedOrganizationFilter !== componentData.organizationFilter) {
+      setComponentData((prev) => ({
+        ...prev,
+        organizationFilter: debouncedOrganizationFilter,
+        currentPage: 1,
+      }));
+    }
+  }, [debouncedOrganizationFilter, componentData.organizationFilter]);
 
   const handleSearch = useCallback((value: string) => {
     setComponentData((prev) => ({
@@ -185,111 +235,84 @@ export default function UsersFilter({ users }: UserFilterProps) {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div ref={topRef} className="max-w-6xl mx-auto px-4 py-8">
       <div className="mb-8 space-y-4">
         <div className="relative">
-          <input
+          <Input
             type="text"
             placeholder="Search users..."
             value={componentData.searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
-            className="w-full px-4 py-3 pl-12 bg-white/5 backdrop-blur-sm border 
-                border-gray-700 rounded-xl text-gray-200 placeholder-gray-400 
-                focus:ring-2 focus:ring-teal-500/50 focus:border-transparent
-                outline-none transition-all duration-300"
           />
         </div>
 
         <div className="relative w-full">
-          <div className="flex flex-row items-center gap-4 w-full">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full">
             {/* Location Filter */}
-            <div className="relative group">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-teal-500">
+            <div className="relative group flex-1">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary z-10">
                 <MapPin size={18} />
               </div>
-              <input
+              <Input
                 type="text"
                 placeholder="Filter by location"
-                value={componentData.locationFilter}
-                onChange={(e) => handleLocationFilter(e.target.value)}
-                className="pl-11 pr-4 py-2.5 bg-gray-800/30 border border-gray-700/50 
-                  rounded-xl text-gray-200 placeholder-gray-400 w-60
-                  focus:ring-2 focus:ring-teal-500/30 focus:border-transparent
-                  outline-none transition-all duration-300"
+                value={localLocationFilter}
+                onChange={(e) => setLocalLocationFilter(e.target.value)}
+                className="pl-11 pr-10"
               />
-              {componentData.locationFilter && (
-                <button
-                  onClick={() => handleLocationFilter("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 
-                    hover:text-gray-200 transition-colors duration-200"
+              {localLocationFilter && (
+                <Button
+                  onClick={() => {
+                    setLocalLocationFilter("");
+                    handleLocationFilter("");
+                  }}
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
                 >
                   <X size={16} />
-                </button>
+                </Button>
               )}
             </div>
 
             {/* Organization Filter */}
-            <div className="relative group">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-teal-500">
+            <div className="relative group flex-1">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary z-10">
                 <Building2 size={18} />
               </div>
-              <input
+              <Input
                 type="text"
                 placeholder="Filter by organization"
-                value={componentData.organizationFilter}
-                onChange={(e) => handleOrganizationFilter(e.target.value)}
-                className="pl-11 pr-4 py-2.5 bg-gray-800/30 border border-gray-700/50 
-                  rounded-xl text-gray-200 placeholder-gray-400 w-72
-                  focus:ring-2 focus:ring-teal-500/30 focus:border-transparent
-                  outline-none transition-all duration-300"
+                value={localOrganizationFilter}
+                onChange={(e) => setLocalOrganizationFilter(e.target.value)}
+                className="pl-11 pr-10"
               />
-              {componentData.organizationFilter && (
-                <button
-                  onClick={() => handleOrganizationFilter("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 
-                    hover:text-gray-200 transition-colors duration-200"
+              {localOrganizationFilter && (
+                <Button
+                  onClick={() => {
+                    setLocalOrganizationFilter("");
+                    handleOrganizationFilter("");
+                  }}
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
                 >
                   <X size={16} />
-                </button>
+                </Button>
               )}
             </div>
-
-            {/* Active Filters */}
-            {(componentData.locationFilter ||
-              componentData.organizationFilter) && (
-              <div className="flex flex-wrap gap-2 ml-2">
-                {componentData.locationFilter && (
-                  <span
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-teal-500/10 
-                    text-teal-400 rounded-lg text-sm border border-teal-500/20"
-                  >
-                    <MapPin size={14} />
-                    {componentData.locationFilter}
-                  </span>
-                )}
-                {componentData.organizationFilter && (
-                  <span
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-teal-500/10 
-                    text-teal-400 rounded-lg text-sm border border-teal-500/20"
-                  >
-                    <Building2 size={14} />
-                    {componentData.organizationFilter}
-                  </span>
-                )}
-              </div>
-            )}
           </div>
         </div>
       </div>
 
       {currentUsers.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 min-h-[800px]">
             {currentUsers.map((user) => (
               <div
                 key={user.id}
-                className="group relative bg-gray-800/50 backdrop-blur-sm border border-gray-700 
-                      rounded-xl p-6 hover:bg-gray-800/70 transition-all duration-300"
+                className="group relative bg-card/50 backdrop-blur-sm border border-border
+                      rounded-xl p-6 hover:bg-card/70 transition-all duration-300"
               >
                 <div className="mt-2 flex items-center justify-between">
                   <div className="flex items-center justify-between w-full">
@@ -298,27 +321,27 @@ export default function UsersFilter({ users }: UserFilterProps) {
                       alt={user.login}
                       className="rounded-full"
                       width={100}
-                      height={150}
+                      height={100}
                     />
-                    <h3 className="text-2xl font-bold text-gray-100 group-hover:text-teal-400 transition-colors duration-300">
+                    <h3 className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors duration-300">
                       {user.login}
                     </h3>
                     <Link
                       href={user.html_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="ml-4 p-2 rounded-lg bg-gray-700/50 hover:bg-gray-700 
+                      className="ml-4 p-2 rounded-lg bg-muted hover:bg-secondary
                           transition-colors duration-300"
                     >
                       <ExternalLink
                         size={20}
-                        className="text-gray-400 hover:text-white"
+                        className="text-muted-foreground hover:text-foreground"
                       />
                     </Link>
                   </div>
                 </div>
 
-                <div className="mt-4 text-gray-400">
+                <div className="mt-4 text-muted-foreground">
                   {user.bio && (
                     <>
                       <p className="text-sm text-balance">{user.bio}</p>
@@ -328,7 +351,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
                         user.email) && (
                         <button
                           onClick={() => toggleExpanded(user.login)}
-                          className="text-teal-500 hover:text-teal-400"
+                          className="text-accent hover:text-accent"
                         >
                           Show More
                         </button>

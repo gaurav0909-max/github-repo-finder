@@ -11,18 +11,18 @@ export default function RepoCard({ repo }: RepoCardProps) {
   return (
     <div
       key={repo.id}
-      className="group relative bg-gray-800/50 backdrop-blur-sm border border-gray-700 
-                 rounded-xl p-6 hover:bg-gray-800/70 transition-all duration-300"
+      className="group relative bg-card/50 backdrop-blur-sm border border-border
+                 rounded-xl p-6 hover:bg-card/70 transition-all duration-300"
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <h3
-            className="text-xl font-semibold text-gray-100 group-hover:text-teal-400 
+            className="text-xl font-semibold text-foreground group-hover:text-accent
                      transition-colors duration-300"
           >
             {repo.name}
           </h3>
-          <p className="mt-2 text-gray-400 line-clamp-2 text-pretty">
+          <p className="mt-2 text-muted-foreground line-clamp-2 text-pretty">
             {repo.description || "No description provided."}
           </p>
         </div>
@@ -31,13 +31,13 @@ export default function RepoCard({ repo }: RepoCardProps) {
             href={repo.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-lg bg-gray-700/50 hover:bg-gray-700 
+            className="p-2 rounded-lg bg-muted hover:bg-secondary
                      transition-colors duration-300"
             title="View Repository"
           >
             <ExternalLink
               size={20}
-              className="text-gray-400 hover:text-white"
+              className="text-muted-foreground hover:text-foreground"
             />
           </Link>
           {repo.homepage && (
@@ -45,11 +45,11 @@ export default function RepoCard({ repo }: RepoCardProps) {
               href={repo.homepage}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg bg-teal-500/10 hover:bg-teal-500/20 
+              className="p-2 rounded-lg bg-accent/10 hover:bg-accent/20
                        transition-colors duration-300"
               title="View Deployed Site"
             >
-              <Globe size={20} className="text-teal-400 hover:text-teal-300" />
+              <Globe size={20} className="text-accent hover:text-accent" />
             </Link>
           )}
         </div>
@@ -64,12 +64,12 @@ export default function RepoCard({ repo }: RepoCardProps) {
                   repo.language
                 )}`}
               />
-              <span className="text-sm text-gray-400">{repo.language}</span>
+              <span className="text-sm text-muted-foreground">{repo.language}</span>
             </div>
           )}
         </div>
         {repo.updated_at && (
-          <div className="flex items-center gap-2 text-gray-400">
+          <div className="flex items-center gap-2 text-muted-foreground">
             <p className="text-md">Last updated:</p>
             <span className="text-sm">
               {new Date(repo.updated_at).toLocaleDateString()}
