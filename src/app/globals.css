@@ -40,6 +40,19 @@
     --input: 0 0% 90%; /* #E5E5E5 */
     --ring: 210 100% 48%; /* #0070F3 */
 
+    /* Additional Semantic Colors */
+    --info: 210 82% 55%; /* #2563EB - Professional blue */
+    --info-foreground: 0 0% 100%; /* #FFFFFF */
+
+    --disabled: 0 0% 93%; /* #ECECEC */
+    --disabled-foreground: 0 0% 45%; /* #737373 */
+
+    --ghost: 0 0% 96%; /* #F5F5F5 */
+    --ghost-foreground: 0 0% 9%; /* #171717 */
+
+    --secondary-hover: 0 0% 92%; /* Slightly darker than secondary */
+    --skeleton: 0 0% 91%; /* Light gray for animations */
+
     --radius: 0.5rem; /* 8px */
   }
 
@@ -79,23 +92,41 @@
     --border: 0 0% 15%; /* #262626 */
     --input: 0 0% 15%; /* #262626 */
     --ring: 210 100% 48%; /* #0070F3 */
+
+    /* Additional Semantic Colors */
+    --info: 210 82% 55%; /* #2563EB - Same blue */
+    --info-foreground: 0 0% 100%; /* #FFFFFF */
+
+    --disabled: 0 0% 10%; /* #1A1A1A */
+    --disabled-foreground: 0 0% 50%; /* #808080 */
+
+    --ghost: 0 0% 8%; /* #141414 */
+    --ghost-foreground: 0 0% 93%; /* #EDEDED */
+
+    --secondary-hover: 0 0% 14%; /* Slightly lighter than secondary */
+    --skeleton: 0 0% 12%; /* Dark gray for dark mode */
   }
 }
 
 @layer base {
+  /* Smooth theme transitions */
+  html {
+    scroll-behavior: smooth;
+    transition: color-scheme 200ms ease-out;
+    overflow-y: scroll; /* Force scrollbar to always be visible */
+  }
+
   * {
     @apply border-border;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
   }
 
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     font-family: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
   }
 
   /* Hide scrollbar but keep functionality */
