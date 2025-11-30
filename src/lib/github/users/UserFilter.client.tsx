@@ -307,61 +307,82 @@ export default function UsersFilter({ users }: UserFilterProps) {
 
       {currentUsers.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 min-h-[800px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {currentUsers.map((user) => (
               <div
                 key={user.id}
-                className="group relative bg-card/50 backdrop-blur-sm border border-border
-                      rounded-xl p-6 hover:bg-card/70 transition-all duration-300"
+                className="group relative bg-card border border-border rounded-xl overflow-hidden
+                      hover:shadow-lg hover:border-primary/50 transition-all duration-300"
               >
-                <div className="mt-2 flex items-center justify-between">
-                  <div className="flex items-center justify-between w-full">
+                {/* Header Section - Fixed Height */}
+                <div className="p-6 pb-4 border-b border-border/50">
+                  <div className="flex items-start gap-4">
                     <Image
                       src={user.avatar_url}
                       alt={user.login}
-                      className="rounded-full"
-                      width={100}
-                      height={100}
+                      className="rounded-full flex-shrink-0 ring-2 ring-border group-hover:ring-primary/50 transition-all"
+                      width={64}
+                      height={64}
                     />
-                    <h3 className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors duration-300">
-                      {user.login}
-                    </h3>
-                    <Link
-                      href={user.html_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ml-4 p-2 rounded-lg bg-muted hover:bg-secondary
-                          transition-colors duration-300"
-                    >
-                      <ExternalLink
-                        size={20}
-                        className="text-muted-foreground hover:text-foreground"
-                      />
-                    </Link>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors truncate">
+                        {user.login}
+                      </h3>
+                      {user.name && (
+                        <p className="text-sm text-muted-foreground truncate mt-0.5">{user.name}</p>
+                      )}
+                      <Link
+                        href={user.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 mt-2 text-xs text-primary hover:text-primary/80 transition-colors"
+                        title="View on GitHub"
+                      >
+                        View Profile <ExternalLink size={12} />
+                      </Link>
+                    </div>
                   </div>
                 </div>
 
-                <div className="mt-4 text-muted-foreground">
+                {/* Content Section - Variable Height */}
+                <div className="p-6 pt-4 space-y-3">
                   {user.bio && (
-                    <>
-                      <p className="text-sm text-balance">{user.bio}</p>
-                      {(user.blog ||
-                        user.location ||
-                        user.twitter_username ||
-                        user.email) && (
-                        <button
-                          onClick={() => toggleExpanded(user.login)}
-                          className="text-accent hover:text-accent"
-                        >
-                          Show More
-                        </button>
-                      )}
-                    </>
+                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                      {user.bio}
+                    </p>
                   )}
 
-                  {componentData.expandedUsers[user.login] && (
+                  {(user.location || user.company) && (
+                    <div className="flex flex-wrap gap-3 text-sm pt-2">
+                      {user.location && (
+                        <div className="flex items-center gap-1.5 text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-md">
+                          <MapPin size={13} />
+                          <span className="text-xs">{user.location}</span>
+                        </div>
+                      )}
+                      {user.company && (
+                        <div className="flex items-center gap-1.5 text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-md">
+                          <Building2 size={13} />
+                          <span className="text-xs">{user.company.replace('@', '')}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {(user.blog || user.twitter_username || user.email) && (
                     <>
-                      <DynamicData user={user} />
+                      <button
+                        onClick={() => toggleExpanded(user.login)}
+                        className="text-sm text-primary hover:text-primary/80 transition-colors font-medium pt-2"
+                      >
+                        {componentData.expandedUsers[user.login] ? '▲ Show Less' : '▼ Show More'}
+                      </button>
+
+                      {componentData.expandedUsers[user.login] && (
+                        <div className="pt-3 mt-3 border-t border-border/50">
+                          <DynamicData user={user} />
+                        </div>
+                      )}
                     </>
                   )}
                 </div>

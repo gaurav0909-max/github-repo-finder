@@ -18,19 +18,6 @@ interface DynamicDataProps {
 export default function DynamicData({ user }: DynamicDataProps) {
   return (
     <div className="mt-4 flex flex-col gap-4">
-      {user.location && (
-        <Link
-          href={`https://www.google.com/maps/search/?q=${encodeURIComponent(
-            user.location
-          )}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <MapPin size={16} />
-          <span>{user.location}</span>
-        </Link>
-      )}
       {user.blog && (
         <Link
           href={user.blog.startsWith("http") ? user.blog : `https://${user.blog}`}
