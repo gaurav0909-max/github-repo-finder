@@ -8,9 +8,15 @@ import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-export default async function OrganizationsPage() {
+export default async function OrganizationsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ year?: string }>;
+}) {
   try {
-    const data = await Organizations();
+    const params = await searchParams;
+    const year = params?.year;
+    const data = await Organizations(year);
     return (
       <main className="min-h-screen bg-background">
         <Header />
