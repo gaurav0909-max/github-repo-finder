@@ -4,8 +4,8 @@ export type Repo = {
     id: number;
     name: string;
     full_name?: string;
-    description: string;
-    language: string;
+    description?: string;
+    language?: string;
     html_url: string;
     updated_at?: string;
     homepage?: string;
@@ -39,6 +39,7 @@ export interface SearchFormProps {
 export type UserData = {
     id: number;
     login: string;
+    name?: string;
     avatar_url: string;
     html_url: string;
     type: string;

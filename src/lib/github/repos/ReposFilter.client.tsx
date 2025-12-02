@@ -29,7 +29,7 @@ export default function ReposFilter({ repos }: FilterProps) {
   const filteredRepos = useFilteredRepos(repos, filter, searchTerm);
 
   const languages = useMemo(
-    () => Array.from(new Set(repos.map((repo) => repo.language).filter(Boolean))),
+    () => Array.from(new Set(repos.map((repo) => repo.language).filter((lang): lang is string => Boolean(lang)))),
     [repos]
   );
 

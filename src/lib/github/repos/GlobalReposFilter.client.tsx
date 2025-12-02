@@ -39,7 +39,7 @@ export default function GlobalReposFilter({
 
   // Extract unique languages from current results
   const languages = useMemo(() =>
-    Array.from(new Set(repos.map(r => r.language).filter(Boolean))).sort(),
+    Array.from(new Set(repos.map(r => r.language).filter((lang): lang is string => Boolean(lang)))).sort(),
     [repos]
   );
 
