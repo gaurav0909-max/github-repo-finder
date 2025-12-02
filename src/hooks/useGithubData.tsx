@@ -2,7 +2,7 @@ import Users from "@/lib/github/users/users.server";
 import { useState, useEffect, useCallback } from "react";
 import { UserData, Repo, User } from "@/types/types";
 
-const useGitHubData = (username: string, token: string, searchType: string) => {
+const useGitHubData = (username: string, token: string, searchType: string, year?: string) => {
   const [profile, setProfile] = useState<UserData | null>(null);
   const [repos, setRepos] = useState<Repo[]>([]);
   const [users, setUsers] = useState<User[]>([]);
@@ -34,17 +34,17 @@ const useGitHubData = (username: string, token: string, searchType: string) => {
     }
   }, [fetchGitHubData]);
 
-  const fetchRepositories = useCallback(async (username: string) => {
+  const fetchRepositories = useCallback(async (username: string, year?: string) => {
     try {
-      const reposData = await fetchGitHubData(
-        `https://api.github.com/users/${username}/repos`
-      );
+      // Import the Repos function dynamically
+      const { default: Repos } = await import("@/lib/github/repos/Repos.server");
+      const reposData = await Repos({ username, year });
       setRepos(reposData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       throw err;
     }
-  }, [fetchGitHubData]);
+  }, []);
 
   const fetchUsers = useCallback(async (username: string) => {
     try {
@@ -69,7 +69,7 @@ const useGitHubData = (username: string, token: string, searchType: string) => {
 
         // Only fetch what's needed based on searchType (50% API call reduction!)
         if (searchType === "repos") {
-          await fetchRepositories(username);
+          await fetchRepositories(username, year);
         } else if (searchType === "users") {
           await fetchUsers(username);
         }
@@ -81,7 +81,7 @@ const useGitHubData = (username: string, token: string, searchType: string) => {
     };
 
     fetchData();
-  }, [username, searchType, fetchProfile, fetchRepositories, fetchUsers]);
+  }, [username, searchType, year, fetchProfile, fetchRepositories, fetchUsers]);
 
   return { profile, repos, users, loading, error, totalCount };
 };

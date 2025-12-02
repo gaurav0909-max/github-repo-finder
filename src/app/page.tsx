@@ -21,7 +21,13 @@ export default function Home() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (username.trim()) {
-      router.push(`/github?searchType=${searchType}&username=${username}`);
+      if (searchType === "repos") {
+        // Global repository search - use 'q' parameter
+        router.push(`/github?searchType=repos&q=${encodeURIComponent(username)}`);
+      } else {
+        // User search - use 'username' parameter
+        router.push(`/github?searchType=users&username=${encodeURIComponent(username)}`);
+      }
     }
   };
 
@@ -93,7 +99,7 @@ export default function Home() {
               placeholder={
                 searchType === "users"
                   ? "Enter GitHub username..."
-                  : "Enter username to see repos..."
+                  : "Search repositories (e.g., 'react', 'socket.io')..."
               }
               value={username}
               onChange={(e) => setUsername(e.target.value)}
