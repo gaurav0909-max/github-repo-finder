@@ -28,10 +28,12 @@ export default function ReposFilter({ repos }: FilterProps) {
 
   const filteredRepos = useFilteredRepos(repos, filter, searchTerm);
 
-  const languages = useMemo(
-    () => Array.from(new Set(repos.map((repo) => repo.language).filter((lang): lang is string => Boolean(lang)))),
-    [repos]
-  );
+  const languages = useMemo(() => {
+    const langs = repos
+      .map((repo) => repo.language)
+      .filter((lang): lang is string => Boolean(lang));
+    return Array.from(new Set(langs));
+  }, [repos]);
 
   // Generate year options (from 2008 to current year)
   const currentYear = new Date().getFullYear();

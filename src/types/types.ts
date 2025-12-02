@@ -4,8 +4,8 @@ export type Repo = {
     id: number;
     name: string;
     full_name?: string;
-    description?: string;
-    language?: string;
+    description?: string | null;
+    language?: string | null;
     html_url: string;
     updated_at?: string;
     homepage?: string;

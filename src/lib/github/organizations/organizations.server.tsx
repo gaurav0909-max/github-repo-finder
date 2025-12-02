@@ -18,14 +18,10 @@ interface GitHubOrganization {
 export default async function Organizations(year?: string | null) {
   const cacheKey = `orgs-${year || "recent"}`;
 
-  // Check cache first
   const cached = getFromCache<GitHubOrganization[]>(cacheKey);
   if (cached) {
-    console.log(`[Organizations] Returning cached data for ${cacheKey}`);
     return cached;
   }
-
-  console.log(`[Organizations] Fetching orgs for year: ${year || "recent"}`);
 
   // Build search query based on year parameter
   const currentYear = new Date().getFullYear();
@@ -56,43 +52,19 @@ export default async function Organizations(year?: string | null) {
   });
 
   if (!searchResponse.ok) {
-    console.error(
-      `[Organizations] Failed to search organizations: ${searchResponse.statusText}`
-    );
     return [];
-  }
-
-  // Check rate limits
-  const rateLimitRemaining = searchResponse.headers.get("X-RateLimit-Remaining");
-  const rateLimitReset = searchResponse.headers.get("X-RateLimit-Reset");
-
-  if (rateLimitRemaining) {
-    console.log(`[Organizations] Search API rate limit remaining: ${rateLimitRemaining}`);
-    if (parseInt(rateLimitRemaining) < 5) {
-      const resetTime = rateLimitReset
-        ? new Date(parseInt(rateLimitReset) * 1000).toLocaleTimeString()
-        : "unknown";
-      console.warn(
-        `[Organizations] WARNING: Search API rate limit low! Resets at ${resetTime}`
-      );
-    }
   }
 
   const searchData = await searchResponse.json();
 
   if (!searchData.items || !Array.isArray(searchData.items)) {
-    console.error("[Organizations] Invalid search response format");
     return [];
   }
 
   const organizations = searchData.items;
-  console.log(`[Organizations] Found ${organizations.length} organizations (total: ${searchData.total_count || 0})`);
-
-  // Fetch detailed information for each organization
-  console.log(`[Organizations] Fetching details for ${organizations.length} orgs...`);
 
   const detailedOrgs = await Promise.all(
-    organizations.map(async (org: any) => {
+    organizations.map(async (org: GitHubOrganization) => {
       try {
         const detailResponse = await fetch(
           `https://api.github.com/orgs/${org.login}`,
@@ -106,20 +78,16 @@ export default async function Organizations(year?: string | null) {
         );
 
         if (!detailResponse.ok) {
-          console.error(`[Organizations] Failed to fetch details for ${org.login}`);
-          return org; // Return basic org data if detail fetch fails
+          return org;
         }
 
         const detailedOrg = await detailResponse.json();
         return detailedOrg;
-      } catch (error) {
-        console.error(`[Organizations] Error fetching details for ${org.login}:`, error);
-        return org; // Return basic org data on error
+      } catch {
+        return org;
       }
     })
   );
-
-  console.log(`[Organizations] Successfully fetched details for ${detailedOrgs.length} organizations`);
 
   // Cache results for 1 hour
   saveToCache(cacheKey, detailedOrgs, { ttl: 3600 });
