@@ -37,11 +37,12 @@ export default function GlobalReposFilter({
   const sortBy = searchParams?.get("sort") || "best-match";
   const order = searchParams?.get("order") || "desc";
 
-  // Extract unique languages from current results
-  const languages = useMemo(() =>
-    Array.from(new Set(repos.map(r => r.language).filter(Boolean))).sort(),
-    [repos]
-  );
+  const languages = useMemo(() => {
+    const langs = repos
+      .map(r => r.language)
+      .filter((lang): lang is string => Boolean(lang));
+    return Array.from(new Set(langs)).sort();
+  }, [repos]);
 
   // Client-side filtering (refine current page results)
   const filteredRepos = useMemo(() => {
@@ -237,9 +238,6 @@ export default function GlobalReposFilter({
                 />
               </div>
             </div>
-            <p className="text-xs text-muted-foreground mt-4">
-              💡 Tip: These filters apply to the current page only. For server-side filtering across all results, use more specific search terms.
-            </p>
           </div>
         )}
       </div>

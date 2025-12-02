@@ -29,31 +29,16 @@ function useDebouncedValue<T>(value: T, delay: number): T {
 const ITEMS_PER_PAGE = 6;
 
 export default function UsersFilter({ users }: UserFilterProps) {
-  // Local state for filter inputs (for debouncing)
+  const [detailedUsers, setDetailedUsers] = useState<UserData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const [localLocationFilter, setLocalLocationFilter] = useState("");
   const [localOrganizationFilter, setLocalOrganizationFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [expandedUsers, setExpandedUsers] = useState<Record<string, boolean>>({});
 
-  // Debounced values (300ms delay)
   const debouncedLocationFilter = useDebouncedValue(localLocationFilter, 300);
   const debouncedOrganizationFilter = useDebouncedValue(localOrganizationFilter, 300);
-
-  const [componentData, setComponentData] = useState<{
-    detailedUsers: UserData[];
-    isLoading: boolean;
-    searchTerm: string;
-    locationFilter: string;
-    organizationFilter: string;
-    currentPage: number;
-    expandedUsers: Record<string, boolean>;
-  }>({
-    detailedUsers: [],
-    isLoading: true,
-    searchTerm: "",
-    locationFilter: "",
-    organizationFilter: "",
-    currentPage: 1,
-    expandedUsers: {},
-  });
 
   // Memoize users to prevent unnecessary re-fetches
   const userLogins = useMemo(() => users.map(u => u.login).join(','), [users]);
@@ -62,13 +47,12 @@ export default function UsersFilter({ users }: UserFilterProps) {
     let isMounted = true;
 
     const fetchUserDetails = async () => {
-      // Check if we already have this data cached
-      if (componentData.detailedUsers.length === users.length) {
+      if (detailedUsers.length === users.length) {
         const allUsersMatch = users.every((user, index) =>
-          componentData.detailedUsers[index]?.login === user.login
+          detailedUsers[index]?.login === user.login
         );
         if (allUsersMatch) {
-          return; // Skip fetch if data hasn't changed
+          return;
         }
       }
 
@@ -85,31 +69,23 @@ export default function UsersFilter({ users }: UserFilterProps) {
                 }
               );
               if (!response.ok) {
-                throw new Error(`Failed to fetch data for ${user.login}`);
+                return { ...user, bio: "Unable to load bio" };
               }
               const data = await response.json();
               return { ...user, ...data };
-            } catch (error) {
-              console.error(`Error fetching data for ${user.login}:`, error);
-              return { ...user, bio: "Error fetching bio" };
+            } catch {
+              return { ...user, bio: "Unable to load bio" };
             }
           })
         );
 
         if (isMounted) {
-          setComponentData((prev) => ({
-            ...prev,
-            detailedUsers: updatedUsers,
-            isLoading: false,
-          }));
+          setDetailedUsers(updatedUsers);
+          setIsLoading(false);
         }
-      } catch (error) {
-        console.error("Failed to fetch user details:", error);
+      } catch {
         if (isMounted) {
-          setComponentData((prev) => ({
-            ...prev,
-            isLoading: false,
-          }));
+          setIsLoading(false);
         }
       }
     };
@@ -122,38 +98,38 @@ export default function UsersFilter({ users }: UserFilterProps) {
   }, [userLogins]);
 
   const filteredUsers = useMemo(() => {
-    return componentData.detailedUsers.filter((user) => {
-      const searchLower = componentData.searchTerm.toLowerCase();
-      const locationLower = componentData.locationFilter.toLowerCase();
-      const organizationLower = componentData.organizationFilter.toLowerCase();
+    return detailedUsers.filter((user) => {
+      const searchLower = searchTerm.toLowerCase();
+      const locationLower = debouncedLocationFilter.toLowerCase();
+      const organizationLower = debouncedOrganizationFilter.toLowerCase();
 
       const matchesSearch =
-        !componentData.searchTerm ||
+        !searchTerm ||
         user.login.toLowerCase().includes(searchLower) ||
         user.type.toLowerCase().includes(searchLower) ||
         (user.bio && user.bio.toLowerCase().includes(searchLower));
 
       const matchesLocation =
-        !componentData.locationFilter ||
+        !debouncedLocationFilter ||
         (user.location && user.location.toLowerCase().includes(locationLower));
 
       const matchesOrganization =
-        !componentData.organizationFilter ||
+        !debouncedOrganizationFilter ||
         (user?.company &&
           user?.company.toLowerCase().includes(organizationLower));
 
       return matchesSearch && matchesLocation && matchesOrganization;
     });
   }, [
-    componentData.detailedUsers,
-    componentData.searchTerm,
-    componentData.locationFilter,
-    componentData.organizationFilter,
+    detailedUsers,
+    searchTerm,
+    debouncedLocationFilter,
+    debouncedOrganizationFilter,
   ]);
 
   const { currentUsers, totalPages } = useMemo(() => {
     const total = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
-    const startIndex = (componentData.currentPage - 1) * ITEMS_PER_PAGE;
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const current = filteredUsers.slice(
       startIndex,
       startIndex + ITEMS_PER_PAGE
@@ -163,74 +139,29 @@ export default function UsersFilter({ users }: UserFilterProps) {
       currentUsers: current,
       totalPages: total,
     };
-  }, [filteredUsers, componentData.currentPage]);
+  }, [filteredUsers, currentPage]);
 
   const topRef = useRef<HTMLDivElement>(null);
 
   const handlePageChange = useCallback((page: number, shouldScroll = true) => {
-    setComponentData((prev) => ({
-      ...prev,
-      currentPage: page,
-    }));
+    setCurrentPage(page);
     if (shouldScroll && topRef.current) {
       topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, []);
 
-  // Sync debounced filter values to actual state (without triggering scroll)
   useEffect(() => {
-    if (debouncedLocationFilter !== componentData.locationFilter) {
-      setComponentData((prev) => ({
-        ...prev,
-        locationFilter: debouncedLocationFilter,
-        currentPage: 1,
-      }));
-    }
-  }, [debouncedLocationFilter, componentData.locationFilter]);
-
-  useEffect(() => {
-    if (debouncedOrganizationFilter !== componentData.organizationFilter) {
-      setComponentData((prev) => ({
-        ...prev,
-        organizationFilter: debouncedOrganizationFilter,
-        currentPage: 1,
-      }));
-    }
-  }, [debouncedOrganizationFilter, componentData.organizationFilter]);
-
-  const handleSearch = useCallback((value: string) => {
-    setComponentData((prev) => ({
-      ...prev,
-      searchTerm: value,
-      currentPage: 1,
-    }));
-  }, []);
-
-  const handleLocationFilter = useCallback((value: string) => {
-    setComponentData((prev) => ({
-      ...prev,
-      locationFilter: value,
-      currentPage: 1,
-    }));
-  }, []);
-
-  const handleOrganizationFilter = useCallback((value: string) => {
-    setComponentData((prev) => ({
-      ...prev,
-      organizationFilter: value,
-      currentPage: 1,
-    }));
-  }, []);
+    setCurrentPage(1);
+  }, [debouncedLocationFilter, debouncedOrganizationFilter, searchTerm]);
 
   const toggleExpanded = useCallback((userId: string) => {
-    setComponentData((prev) => {
-      const newExpandedUsers = { ...prev.expandedUsers };
-      newExpandedUsers[userId] = !newExpandedUsers[userId];
-      return { ...prev, expandedUsers: newExpandedUsers };
-    });
+    setExpandedUsers((prev) => ({
+      ...prev,
+      [userId]: !prev[userId],
+    }));
   }, []);
 
-  if (componentData.isLoading) {
+  if (isLoading) {
     return <LoaderPage />;
   }
 
@@ -241,8 +172,8 @@ export default function UsersFilter({ users }: UserFilterProps) {
           <Input
             type="text"
             placeholder="Search users..."
-            value={componentData.searchTerm}
-            onChange={(e) => handleSearch(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
@@ -262,10 +193,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
               />
               {localLocationFilter && (
                 <Button
-                  onClick={() => {
-                    setLocalLocationFilter("");
-                    handleLocationFilter("");
-                  }}
+                  onClick={() => setLocalLocationFilter("")}
                   variant="ghost"
                   size="icon"
                   className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
@@ -289,10 +217,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
               />
               {localOrganizationFilter && (
                 <Button
-                  onClick={() => {
-                    setLocalOrganizationFilter("");
-                    handleOrganizationFilter("");
-                  }}
+                  onClick={() => setLocalOrganizationFilter("")}
                   variant="ghost"
                   size="icon"
                   className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
@@ -375,10 +300,10 @@ export default function UsersFilter({ users }: UserFilterProps) {
                         onClick={() => toggleExpanded(user.login)}
                         className="text-sm text-primary hover:text-primary/80 transition-colors font-medium pt-2"
                       >
-                        {componentData.expandedUsers[user.login] ? '▲ Show Less' : '▼ Show More'}
+                        {expandedUsers[user.login] ? '▲ Show Less' : '▼ Show More'}
                       </button>
 
-                      {componentData.expandedUsers[user.login] && (
+                      {expandedUsers[user.login] && (
                         <div className="pt-3 mt-3 border-t border-border/50">
                           <DynamicData user={user} />
                         </div>
@@ -391,7 +316,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
           </div>
 
           <Pagination
-            currentPage={componentData.currentPage}
+            currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />
