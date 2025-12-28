@@ -3,6 +3,13 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { siteConfig, defaultOpenGraph, defaultTwitter } from "@/lib/seo/metadata.config";
+import StructuredData from "@/components/seo/structured-data";
+import {
+  getWebsiteSchema,
+  getOrganizationSchema,
+  getSoftwareApplicationSchema,
+} from "@/lib/seo/structured-data";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,23 +24,37 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RepoVision - Discover GitHub Projects",
-  description:
-    "Explore trending GitHub repositories, discover talented developers, and find amazing open-source projects with advanced search and analytics.",
-  keywords: [
-    "GitHub",
-    "repositories",
-    "developers",
-    "open source",
-    "trending",
-    "analytics",
-  ],
-  authors: [{ name: "RepoVision" }],
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  authors: [{ name: "RepoVision Team" }],
+  creator: "RepoVision",
   openGraph: {
-    title: "RepoVision - Discover GitHub Projects",
-    description:
-      "Explore trending GitHub repositories and discover talented developers",
-    type: "website",
+    ...defaultOpenGraph,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
+  },
+  twitter: {
+    ...defaultTwitter,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -44,6 +65,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Structured Data for SEO */}
+        <StructuredData data={getWebsiteSchema()} />
+        <StructuredData data={getOrganizationSchema()} />
+        <StructuredData data={getSoftwareApplicationSchema()} />
+
+        {/* Preconnect to external domains for performance */}
+        <link rel="preconnect" href="https://avatars.githubusercontent.com" />
+        <link rel="dns-prefetch" href="https://api.github.com" />
+      </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >

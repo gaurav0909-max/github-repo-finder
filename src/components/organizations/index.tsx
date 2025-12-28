@@ -238,6 +238,9 @@ function Organization({ data }: OrganizationProps) {
         </Button>
       </div>
 
+      {/* Screen reader heading for semantic structure */}
+      <h2 className="sr-only">Organization List</h2>
+
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 min-h-[600px]">
         {currentData.length === 0 ? (
           <div className="col-span-full text-center py-12">
@@ -272,9 +275,9 @@ function Organization({ data }: OrganizationProps) {
                 className="rounded-full border border-border"
               />
               <div>
-                <h2 className="text-xl font-semibold text-foreground">
+                <h3 className="text-xl font-semibold text-foreground">
                   {org.login}
-                </h2>
+                </h3>
               </div>
             </div>
 

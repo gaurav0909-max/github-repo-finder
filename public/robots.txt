@@ -1,0 +1,22 @@
+# RepoVision - robots.txt
+# Guide search engine crawlers and prevent duplicate content indexing
+
+User-agent: *
+Allow: /
+
+# Prevent duplicate content from paginated/filtered results
+# These query parameters create infinite URL variations
+Disallow: /github?*page=
+Disallow: /github?*sort=
+Disallow: /github?*order=
+Disallow: /github?*language=
+Disallow: /github?*stars=
+Disallow: /github?*created=
+Disallow: /github?*topics=
+
+# Allow main search entry points
+Allow: /github?searchType=users
+Allow: /github?searchType=repos
+
+# Sitemap location
+Sitemap: https://github-resource-finder-001.vercel.app/sitemap.xml

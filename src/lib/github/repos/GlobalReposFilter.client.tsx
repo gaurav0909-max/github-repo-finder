@@ -112,9 +112,9 @@ export default function GlobalReposFilter({
     <div ref={topRef} className="max-w-6xl mx-auto px-4 py-8">
       {/* Minimal Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">
+        <h2 className="text-3xl font-bold text-foreground mb-2">
           Search Results for "{searchQuery}"
-        </h1>
+        </h2>
         <p className="text-muted-foreground">
           Found {totalCount.toLocaleString()} repositories
           {totalCount > 200 && " (showing first 200)"}

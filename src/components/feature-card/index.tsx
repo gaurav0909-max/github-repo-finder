@@ -18,9 +18,9 @@ export default function FeatureCard() {
               </div>
 
               {/* Title */}
-              <h3 className="mb-3 text-xl font-semibold text-primary">
+              <h2 className="mb-3 text-xl font-semibold text-primary">
                 {feature.title}
-              </h3>
+              </h2>
 
               {/* Description */}
               <p className="text-sm leading-relaxed text-muted-foreground">

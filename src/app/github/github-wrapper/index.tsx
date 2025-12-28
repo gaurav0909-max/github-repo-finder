@@ -51,7 +51,7 @@ function SearchParamsContent() {
         <section className="container mx-auto px-4 py-8">
           <NotFoundPage />
           <div className="max-w-2xl mx-auto mt-8 p-6 bg-destructive/10 border border-destructive/20 rounded-lg">
-            <h3 className="text-lg font-semibold text-destructive mb-2">Error</h3>
+            <h2 className="text-lg font-semibold text-destructive mb-2">Error Loading Data</h2>
             <p className="text-sm text-muted-foreground">{error}</p>
           </div>
         </section>
