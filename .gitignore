@@ -43,3 +43,4 @@ next-env.d.ts
 
 # Windows-specific files
 nul
+build-output.log
