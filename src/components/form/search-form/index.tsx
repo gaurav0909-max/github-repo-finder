@@ -41,7 +41,7 @@ export default function SearchForm({
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder={`Enter GitHub ${searchType}`}
-            className="w-full px-4 py-4 pr-20 rounded-xl text-lg bg-foreground/10 backdrop-blur-md
+            className="w-full px-4 py-4 pr-20 rounded-xl text-lg bg-muted/50 backdrop-blur-md
            text-foreground placeholder:text-muted-foreground border border-border/20
            shadow-lg focus:ring-2 focus:ring-ring focus:border-transparent
            outline-none transition-all duration-300"
@@ -51,8 +51,8 @@ export default function SearchForm({
             type="button"
             onClick={changeSearchType}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-4 text-sm text-muted-foreground
-           rounded-xl border-2 border-border/20 bg-foreground/10 backdrop-blur-md
-           hover:bg-foreground/20 transition-all duration-300 focus:ring-2 focus:ring-ring focus:ring-offset-2"
+           rounded-xl border-2 border-border/20 bg-muted/50 backdrop-blur-md
+           hover:bg-muted/60 transition-all duration-300 focus:ring-2 focus:ring-ring focus:ring-offset-2"
           >
             {searchType === "users" ? "Users" : "Repositories"}
           </button>

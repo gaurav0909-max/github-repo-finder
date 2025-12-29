@@ -322,7 +322,7 @@ export default function UsersFilter({ users }: UserFilterProps) {
           />
         </>
       ) : (
-        <div className="text-center text-gray-400 py-8">
+        <div className="text-center text-muted-foreground py-8">
           No users found matching your search criteria.
         </div>
       )}
