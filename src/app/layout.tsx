@@ -66,11 +66,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Structured Data for SEO */}
-        <StructuredData data={getWebsiteSchema()} />
-        <StructuredData data={getOrganizationSchema()} />
-        <StructuredData data={getSoftwareApplicationSchema()} />
-
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://avatars.githubusercontent.com" />
         <link rel="dns-prefetch" href="https://api.github.com" />
@@ -78,6 +73,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >
+        {/* Structured Data for SEO - moved to body for non-blocking */}
+        <StructuredData data={getWebsiteSchema()} />
+        <StructuredData data={getOrganizationSchema()} />
+        <StructuredData data={getSoftwareApplicationSchema()} />
+
         <ThemeProvider defaultTheme="system" storageKey="repovision-theme">
           <NextTopLoader color="#0070F3" height={2} showSpinner={false} />
           {children}

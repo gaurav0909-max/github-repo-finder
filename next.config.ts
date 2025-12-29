@@ -25,8 +25,17 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  productionBrowserSourceMaps: true,
-  // You can add more configuration options here if needed
+  productionBrowserSourceMaps: false, // Disable for smaller bundles
+
+  // Optimize for modern browsers
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+
+  // Performance optimizations
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'react-icons'],
+  },
 };
 
 export default nextConfig;
