@@ -12,7 +12,7 @@ import HeroSection from "@/components/landing/hero-section";
 import StatsSection from "@/components/landing/stats-section";
 import UseCasesSection from "@/components/landing/use-cases-section";
 import BenefitsGrid from "@/components/landing/benefits-grid";
-import FeatureCard from "@/components/feature-card";
+import FeaturesShowcase from "@/components/landing/features-showcase";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -111,8 +111,8 @@ export default function Home() {
       {/* Benefits Grid */}
       <BenefitsGrid />
 
-      {/* Features Section */}
-      <FeatureCard />
+      {/* Features Showcase */}
+      <FeaturesShowcase />
 
       {/* Footer */}
       <Footer />
