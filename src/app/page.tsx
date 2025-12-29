@@ -13,7 +13,8 @@ import StatsSection from "@/components/landing/stats-section";
 import UseCasesSection from "@/components/landing/use-cases-section";
 import BenefitsGrid from "@/components/landing/benefits-grid";
 import FeaturesShowcase from "@/components/landing/features-showcase";
-import Footer from "@/components/Footer";
+import FinalCTASection from "@/components/landing/final-cta-section";
+import EnhancedFooter from "@/components/landing/enhanced-footer";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -46,6 +47,18 @@ export default function Home() {
           </div>
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
             <nav className="flex items-center space-x-6 text-sm font-medium">
+              <a
+                href="#features"
+                className="transition-colors hover:text-foreground/80 text-foreground/60"
+              >
+                Features
+              </a>
+              <a
+                href="#use-cases"
+                className="transition-colors hover:text-foreground/80 text-foreground/60"
+              >
+                Use Cases
+              </a>
               <Link
                 href="/organizations"
                 className="transition-colors hover:text-foreground/80 text-foreground/60"
@@ -114,8 +127,11 @@ export default function Home() {
       {/* Features Showcase */}
       <FeaturesShowcase />
 
-      {/* Footer */}
-      <Footer />
+      {/* Final CTA Section */}
+      <FinalCTASection />
+
+      {/* Enhanced Footer */}
+      <EnhancedFooter />
     </main>
   );
 }
