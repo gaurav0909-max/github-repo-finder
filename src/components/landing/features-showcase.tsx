@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { landingContent } from "@/lib/constants/landing-content";
 import FadeInWrapper from "./animation-wrappers/fade-in-wrapper";
-import { Check } from "lucide-react";
 
 export default function FeaturesShowcase() {
   const { features } = landingContent;
@@ -78,16 +77,13 @@ export default function FeaturesShowcase() {
                     </p>
 
                     {/* Bullets */}
-                    <ul className="space-y-3">
+                    <ul className="space-y-3 list-disc list-inside">
                       {feature.bullets.map((bullet, bulletIndex) => (
                         <li
                           key={bulletIndex}
-                          className="flex items-start gap-3 text-muted-foreground"
+                          className="text-muted-foreground leading-relaxed"
                         >
-                          <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center mt-0.5">
-                            <Check className="w-4 h-4 text-primary" />
-                          </div>
-                          <span className="leading-relaxed">{bullet}</span>
+                          {bullet}
                         </li>
                       ))}
                     </ul>

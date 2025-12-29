@@ -9,8 +9,7 @@ import {
   Zap,
   UserCheck,
   Share2,
-  Sparkles,
-  Check
+  Sparkles
 } from "lucide-react";
 
 const iconMap = {
@@ -47,14 +46,9 @@ export default function BenefitsGrid() {
               <StaggerItem key={index}>
                 <Card className="p-6 h-full border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-200 hover:shadow-md">
                   <div className="space-y-3">
-                    {/* Icon with checkmark */}
-                    <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                        {IconComponent && <IconComponent className="w-5 h-5" />}
-                      </div>
-                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Check className="w-4 h-4 text-primary" />
-                      </div>
+                    {/* Icon */}
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
+                      {IconComponent && <IconComponent className="w-5 h-5" />}
                     </div>
 
                     {/* Title */}
