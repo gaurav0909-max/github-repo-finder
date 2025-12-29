@@ -6,7 +6,7 @@ export const getLanguageColor = (language: string): string => {
         Java: "bg-red-400",
         "C++": "bg-purple-400",
         Ruby: "bg-pink-400",
-        default: "bg-gray-300",
+        default: "bg-muted",
     };
     return colors[language] || colors.default;
 };

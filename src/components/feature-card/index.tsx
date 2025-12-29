@@ -10,10 +10,10 @@ export default function FeatureCard() {
           {featureItems.map((feature, index) => (
             <Card
               key={index}
-              className="group p-6 transition-all duration-300 bg-gray-100 dark:bg-gray-900 shadow-sm hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-primary/5"
+              className="group p-6 transition-all duration-300 bg-muted dark:bg-card shadow-sm hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-primary/5"
             >
               {/* Icon container */}
-              <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-slate-400 dark:bg-slate-800 text-primary transition-colors duration-300 group-hover:bg-slate-300 dark:group-hover:bg-slate-600">
+              <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 dark:bg-primary/20 text-primary transition-colors duration-300 group-hover:bg-primary/20 dark:group-hover:bg-primary/30">
                 <span className="text-xl">{feature.icon}</span>
               </div>
 
