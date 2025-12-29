@@ -6,10 +6,12 @@ import { Github } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ThemeToggle } from "@/components/theme-toggle";
+import HeroSection from "@/components/landing/hero-section";
+import StatsSection from "@/components/landing/stats-section";
+import UseCasesSection from "@/components/landing/use-cases-section";
+import BenefitsGrid from "@/components/landing/benefits-grid";
 import FeatureCard from "@/components/feature-card";
 import Footer from "@/components/Footer";
 
@@ -64,24 +66,12 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="container flex flex-col items-center justify-center space-y-8 px-4 py-24 md:py-32">
-        <div className="mx-auto max-w-[800px] text-center">
-          <Badge variant="outline" className="mb-4">
-            Discover Open Source
-          </Badge>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            Explore GitHub
-            <span className="gradient-text"> Projects</span>
-          </h1>
-          <p className="mt-6 text-lg text-muted-foreground sm:text-xl">
-            Search for repositories, discover talented developers, and explore
-            amazing open-source projects all in one place.
-          </p>
-        </div>
+      {/* New Hero Section */}
+      <HeroSection />
 
-        {/* Search Form */}
-        <div className="w-full max-w-[600px] space-y-4">
+      {/* Search Form Section */}
+      <section className="container px-4 py-12">
+        <div className="w-full max-w-[600px] mx-auto space-y-4">
           <Tabs
             value={searchType}
             onValueChange={(value) => setSearchType(value as "users" | "repos")}
@@ -110,30 +100,16 @@ export default function Home() {
             </Button>
           </form>
         </div>
-
-        {/* Stats */}
-        <div className="grid w-full max-w-[800px] gap-4 sm:grid-cols-3">
-          <Card className="p-6 text-center">
-            <div className="text-3xl font-bold text-primary">1M+</div>
-            <div className="text-sm text-muted-foreground">Repositories</div>
-          </Card>
-          <Card className="p-6 text-center">
-            <div className="text-3xl font-bold text-primary">100K+</div>
-            <div className="text-sm text-muted-foreground">Developers</div>
-          </Card>
-          <Card className="p-6 text-center">
-            <div className="text-3xl font-bold text-primary">50K+</div>
-            <div className="text-sm text-muted-foreground">Organizations</div>
-          </Card>
-        </div>
-
-        {/* CTA Link */}
-        <Link href="/organizations">
-          <Button variant="outline" size="lg">
-            Explore Organizations →
-          </Button>
-        </Link>
       </section>
+
+      {/* New Stats Section */}
+      <StatsSection />
+
+      {/* Use Cases Section */}
+      <UseCasesSection />
+
+      {/* Benefits Grid */}
+      <BenefitsGrid />
 
       {/* Features Section */}
       <FeatureCard />
