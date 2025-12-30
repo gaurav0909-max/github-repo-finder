@@ -38,25 +38,14 @@ export default function FeaturesShowcase() {
                   className="flex-1 w-full"
                 >
                   <div className="relative aspect-video rounded-lg overflow-hidden border border-border shadow-2xl bg-muted/50">
-                    {/* Placeholder or actual image */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10">
-                      <div className="text-center p-8">
-                        <div className="text-6xl mb-4 text-primary/20">
-                          {index === 0 ? "🔍" : index === 1 ? "👥" : "🏢"}
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          Feature Screenshot Placeholder
-                        </p>
-                      </div>
-                    </div>
-                    {/* Uncomment when you have actual images */}
-                    {/* <Image
+                    <Image
                       src={feature.image}
                       alt={feature.title}
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, 50vw"
-                    /> */}
+                      priority={index === 0}
+                    />
                   </div>
                 </FadeInWrapper>
 

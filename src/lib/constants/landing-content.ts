@@ -1,6 +1,6 @@
 export const landingContent = {
   hero: {
-    badge: "1M+ repositories indexed • 100K+ developers",
+    badge: "Search 1M+ GitHub repositories • Access 100K+ developer profiles",
     headline: "Discover GitHub's Hidden Gems",
     headlineGradient: "in Seconds",
     subheadline:
@@ -10,12 +10,12 @@ export const landingContent = {
   },
 
   stats: [
-    { value: "1M+", label: "Repositories", sublabel: "Searchable projects" },
-    { value: "100K+", label: "Developers", sublabel: "Active profiles" },
+    { value: "1M+", label: "Repositories", sublabel: "Searchable on GitHub" },
+    { value: "100K+", label: "Developers", sublabel: "Developer profiles" },
     {
       value: "50K+",
       label: "Organizations",
-      sublabel: "Companies indexed",
+      sublabel: "Public organizations",
     },
     { value: "10 min", label: "Time Saved", sublabel: "Per search session" },
   ],
@@ -120,7 +120,7 @@ export const landingContent = {
     {
       title: "Find Top Talent by Location & Expertise",
       description:
-        "Search 100K+ developer profiles with filters GitHub doesn't offer. Perfect for recruiting, hiring, or finding collaborators.",
+        "Access 100K+ developer profiles with filters GitHub doesn't offer. Perfect for recruiting, hiring, or finding collaborators.",
       bullets: [
         "Location and company filters",
         "View contribution history and repositories",
@@ -146,9 +146,9 @@ export const landingContent = {
   finalCTA: {
     headline: "Ready to Discover Better Code?",
     subheadline:
-      "Join 100,000+ developers who find GitHub projects 10x faster",
+      "Search millions of GitHub repositories and find projects 10x faster",
     cta: { text: "Start Exploring Now", href: "/github" },
-    trustSignal: "Free forever • No credit card required • 1M+ repositories",
+    trustSignal: "Free forever • No signup required • Access 1M+ repositories",
   },
 
   footer: {
