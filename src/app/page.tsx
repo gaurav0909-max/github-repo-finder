@@ -82,36 +82,50 @@ export default function Home() {
       {/* New Hero Section */}
       <HeroSection />
 
-      {/* Search Form Section */}
+      {/* Search Form Section - Core Feature */}
       <section className="container px-4 py-12">
-        <div className="w-full max-w-[600px] mx-auto space-y-4">
-          <Tabs
-            value={searchType}
-            onValueChange={(value) => setSearchType(value as "users" | "repos")}
-            className="w-full"
-          >
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="users">Search Users</TabsTrigger>
-              <TabsTrigger value="repos">Search Repositories</TabsTrigger>
-            </TabsList>
-          </Tabs>
+        {/* Highlighted Container for Core Search Feature */}
+        <div className="w-full max-w-[600px] mx-auto relative">
+          {/* Glow effect background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-2xl blur-xl" />
 
-          <form onSubmit={handleSearch} className="flex gap-2">
-            <Input
-              type="text"
-              placeholder={
-                searchType === "users"
-                  ? "Enter GitHub username..."
-                  : "Search repositories (e.g., 'react', 'socket.io')..."
-              }
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="flex-1"
-            />
-            <Button type="submit" size="lg">
-              Search
-            </Button>
-          </form>
+          {/* Main search container with emphasis */}
+          <div className="relative bg-card/80 backdrop-blur-sm border-2 border-primary/20 rounded-2xl p-6 shadow-2xl shadow-primary/10 space-y-4">
+            {/* Optional: Add a badge or label */}
+            <div className="flex items-center justify-center mb-2">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                Start Your Search Here
+              </span>
+            </div>
+
+            <Tabs
+              value={searchType}
+              onValueChange={(value) => setSearchType(value as "users" | "repos")}
+              className="w-full"
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="users">Search Users</TabsTrigger>
+                <TabsTrigger value="repos">Search Repositories</TabsTrigger>
+              </TabsList>
+            </Tabs>
+
+            <form onSubmit={handleSearch} className="flex gap-2">
+              <Input
+                type="text"
+                placeholder={
+                  searchType === "users"
+                    ? "Enter GitHub username..."
+                    : "Search repositories (e.g., 'react', 'socket.io')..."
+                }
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="flex-1 border-primary/30 focus-visible:ring-primary"
+              />
+              <Button type="submit" size="lg" className="px-8">
+                Search
+              </Button>
+            </form>
+          </div>
         </div>
       </section>
 
