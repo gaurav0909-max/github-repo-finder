@@ -66,10 +66,10 @@ export default function EnhancedFooter() {
             </ul>
           </div>
 
-          {/* Support Column */}
+          {/* Legal Column */}
           <div className="space-y-4">
             <h3 className="font-semibold text-sm uppercase tracking-wider">
-              Support
+              Legal
             </h3>
             <ul className="space-y-2">
               {footer.legal.map((link, index) => (
@@ -85,32 +85,6 @@ export default function EnhancedFooter() {
                 </li>
               ))}
             </ul>
-
-            {/* Buy Me a Coffee Button */}
-            <div className="pt-2">
-              <a
-                href="https://buymeacoffee.com/gauravpatel09"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-gray-900 transition-colors shadow-sm hover:shadow-md"
-              >
-                <span>☕</span>
-                <span>Buy me a coffee</span>
-              </a>
-            </div>
-
-            {/* GitHub Icon */}
-            <div className="pt-2">
-              <a
-                href="https://github.com/gaurav0909-max/github-repo-finder"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-muted hover:bg-muted-foreground/20 transition-colors"
-                aria-label="GitHub Repository"
-              >
-                <Github className="h-4 w-4" />
-              </a>
-            </div>
           </div>
         </div>
 

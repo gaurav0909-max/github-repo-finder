@@ -73,6 +73,15 @@ export default function Home() {
               >
                 GitHub
               </a>
+              <a
+                href="https://buymeacoffee.com/gauravpatel09"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-md bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-gray-900 transition-colors"
+              >
+                <span>☕</span>
+                <span>Support</span>
+              </a>
             </nav>
             <ThemeToggle />
           </div>
