@@ -66,10 +66,10 @@ export default function EnhancedFooter() {
             </ul>
           </div>
 
-          {/* Legal Column */}
+          {/* Support Column */}
           <div className="space-y-4">
             <h3 className="font-semibold text-sm uppercase tracking-wider">
-              Legal
+              Support
             </h3>
             <ul className="space-y-2">
               {footer.legal.map((link, index) => (
@@ -85,6 +85,20 @@ export default function EnhancedFooter() {
                 </li>
               ))}
             </ul>
+
+            {/* Buy Me a Coffee Button */}
+            <div className="pt-2">
+              <a
+                href="https://buymeacoffee.com/gauravpatel09"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-gray-900 transition-colors shadow-sm hover:shadow-md"
+              >
+                <span>☕</span>
+                <span>Buy me a coffee</span>
+              </a>
+            </div>
+
             {/* GitHub Icon */}
             <div className="pt-2">
               <a
@@ -102,9 +116,20 @@ export default function EnhancedFooter() {
 
         {/* Bottom Bar */}
         <div className="border-t border-border pt-8">
-          <p className="text-center text-sm text-muted-foreground">
-            {footer.bottomBar}
-          </p>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-muted-foreground">
+              {footer.bottomBar}
+            </p>
+            <a
+              href="https://buymeacoffee.com/gauravpatel09"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-gray-900 transition-colors shadow-sm hover:shadow-md"
+            >
+              <span>☕</span>
+              <span>Support this project</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>
