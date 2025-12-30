@@ -9,7 +9,7 @@ export default function StatsSection() {
   const { stats } = landingContent;
 
   return (
-    <section className="section-padding-sm bg-muted/30">
+    <section className="section-padding-sm bg-muted/30" aria-label="Platform statistics">
       <div className="container mx-auto px-6">
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => {

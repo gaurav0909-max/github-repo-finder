@@ -10,7 +10,7 @@ export default function HeroSection() {
   const { hero } = landingContent;
 
   return (
-    <section className="section-padding relative overflow-hidden">
+    <section className="section-padding relative overflow-hidden" aria-labelledby="hero-heading">
       <div className="container mx-auto px-6">
         <StaggerContainer className="flex flex-col items-center justify-center text-center max-w-5xl mx-auto space-y-8">
           {/* Badge */}
@@ -22,7 +22,7 @@ export default function HeroSection() {
 
           {/* Headline with gradient */}
           <StaggerItem className="w-full">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+            <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
               {hero.headline}{" "}
               <span className="gradient-text">{hero.headlineGradient}</span>
             </h1>

@@ -25,11 +25,11 @@ export default function BenefitsGrid() {
   const { benefits } = landingContent;
 
   return (
-    <section className="section-padding bg-muted/30">
+    <section className="section-padding bg-muted/30" aria-labelledby="benefits-heading">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 id="benefits-heading" className="text-3xl md:text-4xl font-bold mb-4">
             Why RepoVision Beats Manual Search
           </h2>
           <p className="text-lg text-muted-foreground">

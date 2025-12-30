@@ -9,11 +9,11 @@ export default function FinalCTASection() {
   const { finalCTA } = landingContent;
 
   return (
-    <section className="section-padding gradient-bg-subtle">
+    <section className="section-padding gradient-bg-subtle" aria-labelledby="cta-heading">
       <div className="container mx-auto px-6">
         <FadeInWrapper direction="up" className="max-w-4xl mx-auto text-center space-y-8">
           {/* Headline */}
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
+          <h2 id="cta-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold">
             {finalCTA.headline}
           </h2>
 

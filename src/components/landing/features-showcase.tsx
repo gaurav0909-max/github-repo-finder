@@ -8,11 +8,11 @@ export default function FeaturesShowcase() {
   const { features } = landingContent;
 
   return (
-    <section className="section-padding" id="features">
+    <section className="section-padding" id="features" aria-labelledby="features-heading">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 id="features-heading" className="text-3xl md:text-4xl font-bold mb-4">
             Powerful Features for Serious Developers
           </h2>
           <p className="text-lg text-muted-foreground">
